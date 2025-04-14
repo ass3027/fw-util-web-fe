@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <!-- <meta http-equiv="refresh" content="5"> -->
+  </head>
+
+  <body>
+    <div class="server-btn-div">
+      <button onclick="setSocket(this.textContent)">svr10</button>
+      <button onclick="setSocket(this.textContent)">svr11</button>
+      <button onclick="setSocket(this.textContent)">svr20</button>
+      <button onclick="setSocket(this.textContent)">svr21</button>
+    </div>
+    <img id="streamedImage" src="" onclick="zoomImage(event)"/>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script>
+      // import io from "./socketIo.js"
+      const imageTag = document.getElementById('streamedImage');
+      let currentSocket = null;
+  
+      const setSocket = svrName => {
+        if(!!currentSocket) {
+          currentSocket.disconnect()
+        }
+        const gpuNum = svrName.charAt(3)
+        const port = gpuNum === '1' ? 10115 : 10116
+        const endpoint = `http://localhost:${port}/streamsock`
+        const socket = io(endpoint);
+  
+        currentSocket = socket;
+  
+        socket.on('connect_error', err => console.error('Connection error:', err));
+  
+        socket.on('disconnect', reason => console.log('Disconnected:', reason));
+  
+        socket.on('connect', () => {
+          socket.emit('connfront', svrName);
+          console.log('Connected to the socket server');
+        });
+  
+        socket.on('connfront_res', streamid => {
+            console.log('connfront_res : ' + streamid);
+            socket.emit('reqstream', streamid);
+        })
+  
+        socket.on('stream', displayImage);
+      }
+  
+  
+      const displayImage = base64Data => {
+        const imageByte = atob(base64Data);
+        const byteArray = new Uint8Array(imageByte.length);
+
+        byteArray.set(Array.from(imageByte, char => char.charCodeAt(0)))
+        const blob = new Blob([byteArray], {type: 'image/jpeg'});
+        const url = URL.createObjectURL(blob);
+  
+        imageTag.src = url;
+        imageTag.onload = _ => URL.revokeObjectURL(url);
+      }
+
+      const zoomImage = event => {
+        console.log(event)
+        console.log(event.target)
+      }
+  
+      // Initialize with default server
+      window.onload = () => setSocket('svr10');
+  
+      window.addEventListener('beforeunload', () => {
+          if (currentSocket) {
+              currentSocket.disconnect();
+          }
+      });
+      // imageTag.addEventListener('click', _ => window.open(window.location.href, 'video', 'width=1280,height=720'));
+    </script>
+  </body>
+</html>
+<style>
+  body {
+    margin: 0px; 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .server-btn-div {
+    width: 50%;
+    height: 8%;
+    display: flex;
+    /* flex: 1; */
+    padding: 10px
+  }
+
+  .server-btn-div button {
+    flex: 1;
+    padding: 8px 16px ;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8
+  }
+
+  .server-btn-div button:hover {
+    background-color: #e8e8e8;
+  }
+
+  #streamedImage {
+    cursor: pointer;
+  }
+</style>
