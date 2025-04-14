@@ -32,8 +32,6 @@ const getMatrix = (array, width) => {
   }
   return result
 }
-
-// const setRegion = region => region.curRegion = region
 </script>
 
 <template>
