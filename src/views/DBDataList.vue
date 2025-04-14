@@ -1,10 +1,11 @@
 <script setup>
-import {onMounted, reactive, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {API} from "@/API.js";
 import {useRegionStore} from "@/stores/region.js";
 
 const regionStore = useRegionStore();
 
+const loading = ref(false)
 const data = reactive({
   dbDataList: []
 })
@@ -15,9 +16,11 @@ onMounted(async _ => await getDBInfo(regionStore.currentRegion))
 watch(() => regionStore.currentRegion, getDBInfo)
 
 async function getDBInfo(region) {
+  loading.value = true
   const params = { region_id : region['id'] };
   const res = await API.get("/db-info", { params })
   data.dbDataList = res.data
+  loading.value = false
 }
 
 const probeRtsp = async url => {
@@ -40,6 +43,7 @@ const probeRtsp = async url => {
         size="small"
         :rows="15"
         :rows-per-page-options="[30,50]"
+        :loading="loading"
     >
       <template #loading>Loading data...</template>
 
