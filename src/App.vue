@@ -8,93 +8,27 @@ const showRealTimeView = ref(false);
 </script>
 
 <template>
-  <div class="column items-center full-width">
-    <div class="column justify-center" style="width: 80%; height: 100%;">
-      <header class="row justify-center" style="height: 20%;">
-        <div class="row" style="width: 80%;">
-          <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125px" height="125px"/>
-          <RegionSelectComponent/>
-          <nav>
-            <router-link to="/db-data-list">DBDataList</router-link> |
-            <router-link to="/connection-fail-list">ConnectionFailList</router-link> |
-            <router-link to="" @click="showRealTimeView = true">Open RealTime View</router-link>
-          </nav>
-        </div>
-      </header>
+  <div class="flex flex-col w-full items-center ">
+    <header class="flex w-3/5 h-1/5 justify-between items-center">
+      <img class="h-2/3 w-1/8 m-8" alt="Vue logo" src="./assets/logo.svg"/>
+      <RegionSelectComponent class="mx-10"/>
+      <nav class="flex flex-col">
+        <router-link to="/db-data-list">DBDataList</router-link>
+        <router-link to="/connection-fail-list">ConnectionFailList</router-link>
+        <router-link to="" @click="showRealTimeView = true">Open RealTime View</router-link>
+      </nav>
+    </header>
 
-      <div class="row justify-center" style="height: 80%">
-        <div style="width: 15%">
-          <SideBar/>
-        </div>
-        <main class="row justify-center" style="width: 85%">
-          <div style="width: 85%;">
-            <router-view></router-view>
-          </div>
-        </main>
+    <Divider/>
+
+    <div class="flex justify-center w-full h-4/5">
+      <div class="w-1/8">
+        <SideBar/>
       </div>
+      <Panel class="w-5/8">
+        <router-view />
+      </Panel>
     </div>
     <RealTimeView v-if="showRealTimeView"  :show="showRealTimeView" @close="showRealTimeView = false" />
   </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  height: 25%;
-  padding: 0;
-  margin-bottom: 50px;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    /*place-items: center;*/
-    /* padding-right: calc(var(--section-gap) / 2); */
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
-<style>
-  .fit {
-    flex: 1;
-  }
-  .flex {
-    display: flex;
-  }
-  .items-center {
-    align-items: center;
-  }
-  .justify-center {
-    justify-content: center;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-  }
-  .column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .full-height {
-    height: 100%;
-  }
-  .full-width {
-    width: 100%;
-  }
-</style>
