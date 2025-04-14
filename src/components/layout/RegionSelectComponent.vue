@@ -46,6 +46,8 @@ const getMatrix = (array, width) => {
         <div v-for="regionKey in regionKeyRow" class="flex-1">
           <Button
               class="w-full h-full"
+              outlined
+              raised
               v-on:click="regionStore.setRegion(region.dict[regionKey])"
           >
             {{ region.dict[regionKey].name.substring(0,6) }}
