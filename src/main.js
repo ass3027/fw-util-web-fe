@@ -7,6 +7,11 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import Button from "primevue/button"
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Card from "primevue/card";
+import Panel from "primevue/panel";
+import Divider from "primevue/divider";
 
 const pinia = createPinia()
 
@@ -18,5 +23,10 @@ createApp(App)
             preset: Aura
         }
     })
+    .component('Divider', Divider)
+    .component('Panel', Panel)
+    .component('Card', Card)
     .component('Button', Button)
+    .component('DataTable', DataTable)
+    .component('Column', Column)
     .mount('#app')

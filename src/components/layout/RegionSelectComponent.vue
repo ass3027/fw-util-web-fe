@@ -13,8 +13,7 @@ const region = reactive({
 onMounted( async _ => await getRegionDict() )
 
 const getRegionDict = async() => {
-  const params = {region: regionStore.currentRegion['id']};
-  const res = await API.get("/region-dict", {params});
+  const res = await API.get("/region-dict");
   region.dict = res.data
 }
 const getRegionKeyMatrix = width => getMatrix(getRegionDictKey(),width)
@@ -38,37 +37,21 @@ const getMatrix = (array, width) => {
 </script>
 
 <template>
-  <div class="row full-width justify-center">
-    <div class="cur-region">
+  <div class="flex w-full h-full justify-center">
+    <div class="w-1/5 items-center justify-center border-6 rounded-xl">
       <h3>{{ regionStore.currentRegion }}</h3>
     </div>
-    <div class="matrix">
-      <div v-for="regionKeyRow in getRegionKeyMatrix(5)" class="region-row row fit">
-        <div v-for="regionKey in regionKeyRow" class="region fit">
-          <button
-              class="region_btn full-width full-height"
+    <div class="flex flex-col w-4/5">
+      <div v-for="regionKeyRow in getRegionKeyMatrix(5)" class="flex flex-1">
+        <div v-for="regionKey in regionKeyRow" class="flex-1">
+          <Button
+              class="w-full h-full"
               v-on:click="regionStore.setRegion(region.dict[regionKey])"
           >
-            {{ region.dict[regionKey].name }}
-          </button>
+            {{ region.dict[regionKey].name.substring(0,6) }}
+          </Button>
         </div>
       </div>
     </div>
   </div>
-
 </template>
-
-<style scoped>
-  .cur-region {
-    width: 20%;
-    align-items: center;
-    justify-items: center;
-    border: #f2f2f2 solid 2px;
-    border-radius: 10px;
-  }
-  .matrix {
-    width: 80%;
-    flex-direction: column;
-    display: flex;
-  }
-</style>
