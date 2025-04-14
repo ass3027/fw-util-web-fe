@@ -116,12 +116,13 @@ const zoomImage = e => {
             <div class="modal-content" @click.stop>
                 <div class="header">
                     <div class="server-btn-div">
-                        <button 
+                        <Button
                             v-for="svrName in svrNameList"
+                            outlined
                             @click="setSocket(svrName)"
                         >
                             {{ svrName }}
-                        </button>
+                        </Button>
                     </div>
                     <button class="close-btn" @click="closePopup">×</button>
                 </div>
