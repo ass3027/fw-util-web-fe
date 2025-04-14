@@ -21,53 +21,45 @@ async function getDBInfo(region) {
 }
 
 const probeRtsp = async url => {
-  const params = { rtsp_url: url }
-  const res = await API.get("/ffprobe", { params, timeout: 60000 });
-  alert(url + res.data)
-  console.log(res.data)
+  console.log(url)
+  // const params = { rtsp_url: url }
+  // const res = await API.get("/ffprobe", { params, timeout: 60000 });
+  // alert(url + res.data)
+  // console.log(res.data)
 }
 
 </script>
 
 <template>
-  <div class="flex">
-    <table class="db-info-table fit">
-      <colgroup>
-        <col style="width: 5%"/>
-        <col style="width: 15%"/>
-        <col style="width: 15%"/>
-        <col style="width: 7%"/>
-        <col style="width: 40%"/>
-        <col style="width: 7%"/>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>지역</th>
-          <th>name</th>
-          <th>inference</th>
-          <th>URL</th>
-          <th>검증</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for = "dbData in data.dbDataList">
-          <td>{{dbData['cctv_ID']}}</td>
-          <td>{{`${dbData['cctv_address']['L2']} ${dbData['cctv_address']['L3']}`}}</td>
-          <td>{{dbData['cctv_name']}}</td>
-          <td>{{dbData['inference_id']}}</td>
-          <td>{{dbData['url']}}</td>
-          <td class="flex">
-            <button
-                class="fit"
-                v-on:click="probeRtsp(dbData['url'])"
-            >
-              Probe
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="h-full">
+    <DataTable
+        :value="data.dbDataList"
+        tableStyle="min-width: 50rem"
+        stripedRows
+        paginator
+        scrollable
+        scroll-height="500px"
+        size="small"
+        :rows="15"
+        :rows-per-page-options="[30,50]"
+    >
+      <template #loading>Loading data...</template>
+
+      <Column class="w-1/30"  field="cctv_ID" header="ID" :sortable="true"/>
+      <Column class="w-3/30"  header="지역">
+        <template #body="{ data }">
+          {{`${data['cctv_address']['L2']} ${data['cctv_address']['L3']}`}}
+        </template>
+      </Column>
+      <Column class="w-4/30" field="cctv_name" header="Name" :sortable="true"/>
+      <Column class="w-1/30" field="inference_id" header="Inference" :sortable="true"/>
+      <Column field="url" header="URL" :sortable="true"/>
+      <Column class="w-2/30">
+        <template #body="{ data }">
+          <Button :click="probeRtsp(data['url'])">Probe</Button>
+        </template>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
