@@ -17,7 +17,7 @@ const probeRtsp = url => console.log(url)
 
 <template>
   <div class="flex">
-    <table class="db-info-table fit" border="1">
+    <table class="db-info-table fit">
       <colgroup>
         <col style="width: 5%"/>
         <col style="width: 15%"/>

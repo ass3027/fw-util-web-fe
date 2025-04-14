@@ -1,7 +1,7 @@
 <script setup>
 // import { io } from '@/assets/socketIo.io-client'
-import { io } from 'socket.io-client'
-import { onMounted, onUnmounted, reactive, watch } from 'vue';
+import {io} from 'socket.io-client'
+import {onMounted, onUnmounted, reactive, watch} from 'vue';
 
 const props = defineProps({
     show: {
@@ -90,9 +90,7 @@ const displayImage = base64Data => {
 
     byteArray.set(Array.from(imageByte, char => char.charCodeAt(0)))
     const blob = new Blob([byteArray], {type: 'image/jpeg'});
-    const url = URL.createObjectURL(blob);
-
-    data.imageUrl = url;
+    data.imageUrl = URL.createObjectURL(blob);
 }
 
 const handleImageLoad = (event) => {
@@ -129,7 +127,8 @@ const zoomImage = e => {
                 </div>
                 <div class="image-container">
                     <img 
-                        id="streamedImage" 
+                        id="streamedImage"
+                        alt=""
                         :src="data.imageUrl" 
                         @click="zoomImage"
                         @load="handleImageLoad"

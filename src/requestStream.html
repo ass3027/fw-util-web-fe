@@ -12,7 +12,7 @@
       <button onclick="setSocket(this.textContent)">svr20</button>
       <button onclick="setSocket(this.textContent)">svr21</button>
     </div>
-    <img id="streamedImage" src="" onclick="zoomImage(event)"/>
+    <img id="streamedImage" src="" onclick="zoomImage(event)" alt/>
 
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script>
@@ -80,7 +80,7 @@
 </html>
 <style>
   body {
-    margin: 0px; 
+    margin: 0;
     height: 100vh; 
     display: flex; 
     flex-direction: column;
