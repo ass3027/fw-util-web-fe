@@ -31,14 +31,12 @@ const probeRtsp = async url => {
 </script>
 
 <template>
-  <div class="h-full">
+  <div>
     <DataTable
         :value="data.dbDataList"
         tableStyle="min-width: 50rem"
         stripedRows
         paginator
-        scrollable
-        scroll-height="500px"
         size="small"
         :rows="15"
         :rows-per-page-options="[30,50]"
@@ -51,7 +49,7 @@ const probeRtsp = async url => {
           {{`${data['cctv_address']['L2']} ${data['cctv_address']['L3']}`}}
         </template>
       </Column>
-      <Column class="w-4/30" field="cctv_name" header="Name" :sortable="true"/>
+      <Column class="w-7/30" field="cctv_name" header="Name" :sortable="true"/>
       <Column class="w-1/30" field="inference_id" header="Inference" :sortable="true"/>
       <Column field="url" header="URL" :sortable="true"/>
       <Column class="w-2/30">
