@@ -1,19 +1,27 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {API} from "@/API.js";
+import {API, WS_API_URL} from "@/API.js";
 import {useRegionStore} from "@/stores/region.js";
 
 const regionStore = useRegionStore();
+let currentSocket = null
 
+const probeRtspDialogVisible = ref(false);
 const loading = ref(false)
 const data = reactive({
-  dbDataList: []
+  dbDataList: [],
+  ffprobeOutput: ""
 })
 
 
 onMounted(async _ => await getDBInfo(regionStore.currentRegion))
 
-watch(() => regionStore.currentRegion, getDBInfo)
+watch(regionStore.currentRegion, getDBInfo)
+
+watch(probeRtspDialogVisible, value => {
+ if(!value)
+   closeSocket()
+})
 
 async function getDBInfo(region) {
   loading.value = true
@@ -28,12 +36,33 @@ async function getDBInfo(region) {
   loading.value = false
 }
 
-const probeRtsp = async url => {
-  console.log(url)
-  // const params = { rtsp_url: url }
-  // const res = await API.get("/ffprobe", { params, timeout: 60000 });
-  // alert(url + res.data)
-  // console.log(res.data)
+const probeRtsp = async rtspUrl => {
+  console.log(rtspUrl)
+  probeRtspDialogVisible.value = true
+  const regionId = regionStore.currentRegion.id;
+  const endpoint = `${WS_API_URL}/ws/ffprobe/${regionId}`;
+  const ws = new WebSocket(endpoint);
+  currentSocket = ws
+
+  ws.addEventListener("open", _ => {
+    console.log("Connected")
+    ws.send(rtspUrl)
+  })
+  ws.addEventListener("message", event => {
+    data.ffprobeOutput = event.data
+    console.log(data.ffprobeOutput)
+  })
+}
+
+const closeSocket = () => {
+  probeRtspDialogVisible.value = false
+  data.ffprobeOutput = "";
+  console.log("try to close socket")
+  if (currentSocket) {
+    console.log("closing socket...");
+    currentSocket.close();
+    currentSocket = null;
+  }
 }
 
 </script>
@@ -60,13 +89,20 @@ const probeRtsp = async url => {
       </Column>
       <Column class="w-7/30" field="cctv_name" header="Name" :sortable="true"/>
       <Column class="w-1/30" field="inference_id" header="Inference" :sortable="true"/>
-      <Column field="url" header="URL" :sortable="true"/>
+      <Column field="url" header="RTSP_URL" :sortable="true"/>
       <Column class="w-2/30">
         <template #body="{ data }">
           <Button @click="probeRtsp(data['url'])">Probe</Button>
         </template>
       </Column>
     </DataTable>
+
+    <Dialog v-model:visible="probeRtspDialogVisible"
+            class="w-2/5"
+            modal header="RTSP PROBE RESULT"
+    >
+      <span :style="{ 'white-space': 'pre-wrap'}"> {{data.ffprobeOutput}} </span>
+    </Dialog>
   </div>
 </template>
 

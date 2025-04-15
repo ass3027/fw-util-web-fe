@@ -12,6 +12,7 @@ import Column from "primevue/column";
 import Card from "primevue/card";
 import Panel from "primevue/panel";
 import Divider from "primevue/divider";
+import Dialog from "primevue/dialog";
 
 const pinia = createPinia()
 
@@ -23,6 +24,7 @@ createApp(App)
             preset: Aura
         }
     })
+    .component('Dialog', Dialog)
     .component('Divider', Divider)
     .component('Panel', Panel)
     .component('Card', Card)
