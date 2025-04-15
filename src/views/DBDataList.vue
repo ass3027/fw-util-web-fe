@@ -18,8 +18,13 @@ watch(() => regionStore.currentRegion, getDBInfo)
 async function getDBInfo(region) {
   loading.value = true
   const params = { region_id : region['id'] };
-  const res = await API.get("/db-info", { params })
-  data.dbDataList = res.data
+  try{
+    const res = await API.get("/db-info", { params })
+    data.dbDataList = res.data
+  }catch(err){
+    alert(err)
+  }
+
   loading.value = false
 }
 
