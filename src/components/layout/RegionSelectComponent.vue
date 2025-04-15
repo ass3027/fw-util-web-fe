@@ -36,8 +36,8 @@ const getMatrix = (array, width) => {
 
 <template>
   <div class="flex w-full h-full justify-center">
-    <div class="w-1/5 items-center justify-center border-6 rounded-xl">
-      <h3>{{ regionStore.currentRegion }}</h3>
+    <div class="w-1/5 flex items-center justify-center border-6 rounded-xl">
+      <div class="font-semibold text-4xl text-center">{{ regionStore.currentRegion.name }}</div>
     </div>
     <div class="flex flex-col w-4/5">
       <div v-for="regionKeyRow in getRegionKeyMatrix(5)" class="flex flex-1">
@@ -46,7 +46,7 @@ const getMatrix = (array, width) => {
               class="w-full h-full"
               outlined
               raised
-              v-on:click="regionStore.setRegion(region.dict[regionKey])"
+              @click="regionStore.setRegion(region.dict[regionKey])"
           >
             {{ region.dict[regionKey].name.substring(0,6) }}
           </Button>

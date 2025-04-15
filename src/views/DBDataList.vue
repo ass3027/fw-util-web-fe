@@ -63,7 +63,7 @@ const probeRtsp = async url => {
       <Column field="url" header="URL" :sortable="true"/>
       <Column class="w-2/30">
         <template #body="{ data }">
-          <Button :click="probeRtsp(data['url'])">Probe</Button>
+          <Button @click="probeRtsp(data['url'])">Probe</Button>
         </template>
       </Column>
     </DataTable>

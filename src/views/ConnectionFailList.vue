@@ -46,7 +46,7 @@ const probeRtsp = url => console.log(url)
           <td class="flex">
             <button
                 class="fit"
-                v-on:click="probeRtsp(dbData['url'])"
+                @click="probeRtsp(dbData['url'])"
             >
               Probe
             </button>
