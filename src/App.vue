@@ -12,13 +12,16 @@ import SideBar from "@/components/layout/SideBar.vue";
 
     <Divider/>
 
-    <div class="flex justify-center w-full h-4/5">
-      <div class="w-1/8">
+    <div class="flex justify-center w-7/9 h-4/5">
+      <div class="w-3/20">
         <SideBar/>
       </div>
-      <Panel class="w-5/8">
-        <router-view />
-      </Panel>
+      <div class="flex flex-auto px-10">
+        <Panel class="flex-auto">
+          <router-view />
+        </Panel>
+      </div>
+      <div class="w-1/20"></div>
     </div>
   </div>
 </template>
