@@ -1,5 +1,4 @@
 <script setup>
-// import { io } from '@/assets/socketIo.io-client'
 import {io} from 'socket.io-client'
 import {onMounted, onUnmounted, reactive, watch} from 'vue';
 
@@ -18,7 +17,7 @@ const svrNameList = ['svr10', 'svr11', 'svr20', 'svr21'];
 
 let imageTag = null
 let unitImageWidth = 0
-let unitImageheight = 0
+let unitImageHeight = 0
 
 onMounted(() => {
     setSocket('svr10')
@@ -98,13 +97,13 @@ const handleImageLoad = (event) => {
     URL.revokeObjectURL(data.imageUrl);
     imageTag = document.querySelector("#streamedImage")
     unitImageWidth = imageTag.clientWidth / 8
-    unitImageheight = 154.28 // 1080 / 7
+    unitImageHeight = 154.28 // 1080 / 7
 }
 
 const zoomImage = e => {
     console.log([e.offsetX, e.offsetY])
     const indexX = Math.floor(e.offsetX / unitImageWidth)
-    const indexY = Math.floor(e.offsetY / unitImageheight)
+    const indexY = Math.floor(e.offsetY / unitImageHeight)
     const indexVideo = indexX + indexY * 8
     console.log(indexVideo)    // console.log([evn])
     currentSocket.emit('reqstream', indexVideo)
