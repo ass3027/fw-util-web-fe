@@ -116,8 +116,8 @@ const zoomImage = e => {
              style="background-color: rgba(0,0,0,0.5)"
              @click="closePopup"
         >
-            <div class="flex flex-col w-9/10 h-9/10 rounded-lg border-4 border-black" @click.stop>
-                <div class="flex justify-between items-center p-[7px] bg-[#fff]">
+            <div class="flex flex-col w-9/10 h-9/10" @click.stop>
+                <div class="flex justify-between items-center rounded-t-lg p-[7px] bg-[#fff]">
                     <div class="flex gap-[10px]">
                         <Button
                             v-for="svrName in svrNameList"
@@ -131,7 +131,7 @@ const zoomImage = e => {
                     </div>
                     <button class="px-2 py-1 cursor-pointer text-5xl text-black text-center" @click="closePopup">×</button>
                 </div>
-                <div class="flex flex-1 justify-center overflow-auto bg-black">
+                <div class="flex flex-1 justify-center overflow-auto bg-black rounded-b-lg">
                     <img 
                         class="cursor-pointer"
                         alt=""
