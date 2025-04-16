@@ -17,7 +17,7 @@ import SideBar from "@/components/layout/SideBar.vue";
         <SideBar/>
       </div>
       <div class="flex flex-auto px-10">
-        <Panel class="flex-auto">
+        <Panel class="flex-auto" style="overflow: auto; height: 70vh">
           <router-view />
         </Panel>
       </div>
