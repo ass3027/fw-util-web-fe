@@ -44,14 +44,15 @@ const probeRtsp = async rtspUrl => {
   const ws = new WebSocket(endpoint);
   currentSocket = ws
 
-  ws.addEventListener("open", _ => {
+  ws.onopen = _ => {
     console.log("Connected")
     ws.send(rtspUrl)
-  })
-  ws.addEventListener("message", event => {
+  }
+  ws.onmessage = event => {
     data.ffprobeOutput = event.data
     console.log(data.ffprobeOutput)
-  })
+  }
+  ws.onclose = _ => console.log("Connection closed")
 }
 
 const closeSocket = () => {
