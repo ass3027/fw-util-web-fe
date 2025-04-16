@@ -39,8 +39,11 @@ async function getDBInfo(region) {
 }
 
 const probeRtsp = async rtspUrl => {
-  console.log(rtspUrl)
   probeRtspDialogVisible.value = true
+  openSocket(rtspUrl)
+}
+
+const openSocket = rtspUrl => {
   const regionId = regionStore.currentRegion.id;
   const endpoint = `${WS_API_URL}/ws/ffprobe/${regionId}`;
   const ws = new WebSocket(endpoint);
@@ -75,11 +78,8 @@ const closeSocket = () => {
     <DataTable
         :value="data.dbDataList"
         tableStyle="min-width: 50rem"
-        stripedRows
-        paginator
-        size="small"
-        :rows="15"
-        :rows-per-page-options="[30,50]"
+        stripedRows paginator size="small"
+        :rows="15" :rows-per-page-options="[30,50]"
         :loading="loading"
     >
       <template #loading>Loading data...</template>
