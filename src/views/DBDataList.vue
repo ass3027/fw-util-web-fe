@@ -16,7 +16,9 @@ const data = reactive({
 
 onMounted(async _ => await getDBInfo(regionStore.currentRegion))
 
-watch(regionStore.currentRegion, getDBInfo)
+regionStore.$subscribe((_, state) => {
+  getDBInfo(state.currentRegion)
+})
 
 watch(probeRtspDialogVisible, value => {
  if(!value)
