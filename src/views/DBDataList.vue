@@ -102,7 +102,7 @@ const closeSocket = () => {
             class="w-2/5"
             modal header="RTSP PROBE RESULT"
     >
-      <span :style="{ 'white-space': 'pre-wrap'}"> {{data.ffprobeOutput}} </span>
+      <span class="whitespace-pre-wrap"> {{data.ffprobeOutput}} </span>
     </Dialog>
   </div>
 </template>
