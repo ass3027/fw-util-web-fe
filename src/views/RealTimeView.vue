@@ -111,23 +111,29 @@ const zoomImage = e => {
 </script>
 <template>
     <Teleport to="body">
-        <div v-if="show" class="modal-overlay" @click="closePopup">
-            <div class="modal-content" @click.stop>
-                <div class="header">
-                    <div class="server-btn-div">
+        <div v-if="show"
+             class="flex fixed items-center justify-center w-full h-full top-0 left-0 z-50"
+             style="background-color: rgba(0,0,0,0.5)"
+             @click="closePopup"
+        >
+            <div class="flex flex-col w-9/10 h-9/10 rounded-lg border-4 border-black" @click.stop>
+                <div class="flex justify-between items-center p-[7px] bg-[#fff]">
+                    <div class="flex gap-[10px]">
                         <Button
                             v-for="svrName in svrNameList"
+                            class="px-2 py-4 cursor-pointer rounded-sm bg-[#f8f8f8]"
+                            color="#f8f8f8"
                             outlined
                             @click="setSocket(svrName)"
                         >
                             {{ svrName }}
                         </Button>
                     </div>
-                    <button class="close-btn" @click="closePopup">×</button>
+                    <button class="px-2 py-1 cursor-pointer text-5xl text-black text-center" @click="closePopup">×</button>
                 </div>
-                <div class="image-container">
+                <div class="flex flex-1 justify-center overflow-auto bg-black">
                     <img 
-                        id="streamedImage"
+                        class="cursor-pointer"
                         alt=""
                         :src="data.imageUrl" 
                         @click="zoomImage"
@@ -139,80 +145,3 @@ const zoomImage = e => {
         </div>
     </Teleport>
 </template>
-<style scoped>
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    width: 95vw;
-    height: 95vh;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    /* overflow: hidden; */
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
-
-.server-btn-div {
-    display: flex;
-    gap: 10px;
-}
-
-.server-btn-div button {
-    padding: 8px 16px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-}
-
-.server-btn-div button:hover {
-    background-color: #e8e8e8;
-}
-
-.close-btn {
-    padding: 8px 16px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 24px;
-    color: #666;
-}
-
-.close-btn:hover {
-    color: #333;
-}
-
-.image-container {
-    flex: 1;
-    overflow: auto;
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-}
-
-#streamedImage {
-    width: 100%;
-    background-color: #000;
-    cursor: pointer;
-}
-</style>
