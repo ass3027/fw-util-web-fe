@@ -15,6 +15,11 @@ const routes = [
     path: '/realtime-view',
     name: 'RealTimeView',
     component: () => import('@/views/RealTimeView.vue')
+  },
+  {
+    path:'/test',
+    name:'Test',
+    component:() => import('@/views/TestPage.vue')
   }
 ]
 
