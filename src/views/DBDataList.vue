@@ -108,13 +108,3 @@ const closeSocket = () => {
     </Dialog>
   </div>
 </template>
-
-<style scoped>
-  .db-info-table th {
-    background-color: gray;
-  }
-
-  .db-info-table td {
-    text-align: center;
-  }
-</style>
