@@ -115,7 +115,6 @@ const closeSocket = () => {
                   new Set(
                       data.dbDataList.map(it => it['cctv_address']['L2']).sort()
                   ))"
-
           />
         </template>
       </Column>
