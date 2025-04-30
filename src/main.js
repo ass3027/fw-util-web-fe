@@ -13,6 +13,11 @@ import Card from "primevue/card";
 import Panel from "primevue/panel";
 import Divider from "primevue/divider";
 import Dialog from "primevue/dialog";
+import MultiSelect from "primevue/multiselect";
+import InputText from "primevue/inputtext";
+import IconField from "primevue/iconfield";
+import InputIcon from "primevue/inputicon";
+
 
 const pinia = createPinia()
 
@@ -24,11 +29,18 @@ createApp(App)
             preset: Aura
         }
     })
-    .component('Dialog', Dialog)
-    .component('Divider', Divider)
-    .component('Panel', Panel)
     .component('Card', Card)
+    .component('Panel', Panel)
+    .component('Divider', Divider)
+
+    .component('InputIcon', InputIcon)
+    .component('IconField', IconField)
+    .component('InputText', InputText)
+    .component('MultiSelect', MultiSelect)
+    .component('Dialog', Dialog)
     .component('Button', Button)
+
     .component('DataTable', DataTable)
     .component('Column', Column)
+
     .mount('#app')

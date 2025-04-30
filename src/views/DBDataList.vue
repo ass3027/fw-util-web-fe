@@ -1,13 +1,18 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import {API, WS_API_URL} from "@/API.js";
-import {useRegionStore} from "@/stores/region.js";
+import { useRegionStore } from "@/stores/region.js";
+import { FilterMatchMode } from '@primevue/core/api';
 
 const regionStore = useRegionStore();
 let currentSocket = null
 
 const probeRtspDialogVisible = ref(false);
 const loading = ref(false)
+const filters = ref({
+  L2L3 : { value: null, matchMode: FilterMatchMode.CONTAINS},
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS}
+})
 const data = reactive({
   dbDataList: [],
   ffprobeOutput: ""
@@ -31,6 +36,7 @@ async function getDBInfo(region) {
   try{
     const res = await API.get("/db-info", { params })
     data.dbDataList = res.data
+    data.dbDataList.map(it => it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`)
   }catch(err){
     alert(err)
   }
@@ -77,17 +83,40 @@ const closeSocket = () => {
   <div>
     <DataTable
         :value="data.dbDataList"
+        v-model:filters="filters"
+        filter-display="menu"
+        :globalFilterFields="['cctv_name']"
         tableStyle="min-width: 50rem"
         stripedRows paginator size="small"
         :rows="15" :rows-per-page-options="[30,50]"
         :loading="loading"
     >
       <template #loading>Loading data...</template>
+      <template #header>
+        <div class="flex justify-end">
+          <IconField>
+            <InputIcon>
+              <i class="pi pi-search"/>
+            </InputIcon>
+            <InputText v-model="filters['global'].value" placeholder="이름 검색"/>
+          </IconField>
+        </div>
+      </template>
+      <Column class="w-1/30" field="cctv_ID" header="ID" :sortable="true"/>
+      <Column class="w-3/30" header="지역"
+              field="L2L3"
+              :showFilterMatchModes="true"
+              :filterMenuStyle="{ width: '14rem' }">
+        <template #filter="{ filterModel, filterCallback }">
+          <MultiSelect
+              v-model="filterModel.value"
+              @change="filterCallback()"
+              :options="Array.from(
+                  new Set(
+                      data.dbDataList.map(it => it['cctv_address']['L2']).sort()
+                  ))"
 
-      <Column class="w-1/30"  field="cctv_ID" header="ID" :sortable="true"/>
-      <Column class="w-3/30"  header="지역">
-        <template #body="{ data }">
-          {{`${data['cctv_address']['L2']} ${data['cctv_address']['L3']}`}}
+          />
         </template>
       </Column>
       <Column class="w-7/30" field="cctv_name" header="Name" :sortable="true"/>
