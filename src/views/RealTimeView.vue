@@ -13,7 +13,7 @@ watch(() => props.show, newValue => newValue && setSocket('svr10'))
 
 const emit = defineEmits(['close']);
 
-const svrNameList = ['svr10', 'svr11', 'svr20', 'svr21'];
+const svrNameList = ['svr10', 'svr11', 'svr20', 'svr21', 'svr30', 'svr31'];
 
 let imageTag = null
 let unitImageWidth = 0
@@ -60,7 +60,12 @@ const setSocket = svrName => {
     disconnectSocket();
     
     const gpuNum = svrName.charAt(3)
-    const port = gpuNum === '1' ? 10115 : 10116
+    let port = 0;
+    switch (gpuNum) {
+      case '1' : port = 10115; break;
+      case '2' : port = 10116; break;
+      case '3' : port = 10117; break;
+    }
     const endpoint = `http://localhost:${port}/streamsock`
     const socket = io(endpoint);
 
