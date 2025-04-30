@@ -88,7 +88,7 @@ const closeSocket = () => {
         :globalFilterFields="['cctv_name']"
         tableStyle="min-width: 50rem"
         stripedRows paginator size="small"
-        :rows="15" :rows-per-page-options="[30,50]"
+        :rows="10" :rows-per-page-options="[10,30,50]"
         :loading="loading"
     >
       <template #loading>Loading data...</template>
@@ -124,7 +124,13 @@ const closeSocket = () => {
       <Column field="url" header="RTSP_URL" :sortable="true"/>
       <Column class="w-2/30">
         <template #body="{ data }">
-          <Button @click="probeRtsp(data['url'])">Probe</Button>
+          <Button
+              class="font-medium"
+              @click="probeRtsp(data['url'])"
+              label="Probe"
+              severity="info"
+              raised
+          />
         </template>
       </Column>
     </DataTable>
