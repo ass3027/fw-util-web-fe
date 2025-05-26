@@ -26,7 +26,10 @@ createApp(App)
     .use(pinia)
     .use(PrimeVue, {
         theme: {
-            preset: Aura
+            preset: Aura,
+            options: {
+                darkModeSelector: '.my-app-dark'
+            }
         }
     })
     .component('Card', Card)
