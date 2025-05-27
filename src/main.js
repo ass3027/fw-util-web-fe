@@ -37,18 +37,5 @@ createApp(App)
             }
         }
     })
-    .component('Card', Card)
-    .component('Panel', Panel)
-    .component('Divider', Divider)
-
-    .component('InputIcon', InputIcon)
-    .component('IconField', IconField)
-    .component('InputText', InputText)
-    .component('MultiSelect', MultiSelect)
-    .component('Dialog', Dialog)
-    .component('Button', Button)
-
-    .component('DataTable', DataTable)
-    .component('Column', Column)
 
     .mount('#app')
