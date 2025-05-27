@@ -8,8 +8,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'default-layout',
-    component: () => import('@/layout/DefaultLayout.vue'),
+    name: 'MainLayout',
+    component: () => import('@/layout/MainLayout.vue'),
     children: [
       {
         path: 'db-data-list',
