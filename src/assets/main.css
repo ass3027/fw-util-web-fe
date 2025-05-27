@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
-/*@import './base.css';*/
-
+/*@custom-variant dark (&:where(.p-dark, .p-dark *));
+*/
 #app {
   /* max-width: 1280px; */
   margin: 0 auto;
@@ -11,7 +11,15 @@
 }
 
 :root {
-  --color-background: var(--p-surface-200);
+  --color-background: var(--p-surface-950);
+  /*--p-card-color: var(--p-surface-700);*/
+  --p-content-color: var(--p-surface-200);
+  --p-card-background: var(--p-content-color);
+}
+
+.p-button {
+  color: var(--p-surface-100);
+  /*background-color: var(--p-primary-700);*/
 }
 /*a,*/
 /*.green {*/
