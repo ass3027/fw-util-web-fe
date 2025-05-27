@@ -6,21 +6,39 @@
 #app {
   /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  /*padding: 2rem;*/
   font-weight: normal;
   /*background-color: var();*/
 }
 
 :root {
-  --color-background: var(--p-surface-950);
-  /*--p-card-color: var(--p-surface-700);*/
+  --color-background: var(--p-surface-100);
   --p-content-color: var(--p-surface-200);
-  --p-card-background: var(--p-content-color);
+  /*--p-card-background: var(--p-content-color);*/
+  /*--p-menubar-background: var(--color-background);*/
+  /*--p-menubar-border-color: var(--color-background);*/
+}
+
+.p-card {
+  background-color: var(--p-content-color);
 }
 
 .p-button {
   color: var(--p-surface-100);
   /*background-color: var(--p-primary-700);*/
+}
+
+.p-menubar {
+  background-color: var(--color-background);
+  border: none;
+}
+
+.p-menubar-item-content {
+  color: var(--p-surface-800);
+}
+
+.p-menubar-item-content:hover {
+  background: var(--p-surface-300);
 }
 /*a,*/
 /*.green {*/
