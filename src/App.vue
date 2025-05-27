@@ -1,5 +1,5 @@
 <script setup>
-const toggleDarkMode = () => document.documentElement.classList.toggle('my-app-dark')
+const toggleDarkMode = () => document.documentElement.classList.toggle('p-app-dark')
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 
 export default {
-    darkMode: ['selector', '[class="my-app-dark"]'],
+    darkMode: ['selector', '[class="p-app-dark"]'],
     // theme: {
     //     screens: {
     //         sm: '576px',
