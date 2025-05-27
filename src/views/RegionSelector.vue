@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const getRegionList = () => {
   // for test
   return [
@@ -17,8 +19,10 @@ const getRegionList = () => {
   ]
 }
 
+
 const visible = ref(false);
 
+let selectedRegion = "";
 const login = reactive({
   username: "",
   password: "",
@@ -32,6 +36,7 @@ const login = reactive({
     }
     visible.value = false;
     alert("로그인 성공");
+    router.push({name: "DBDataList", params: {region: selectedRegion}});
   }
 })
 
@@ -49,7 +54,7 @@ const login = reactive({
               v-for="region in getRegionList()"
               class="text-lg font-semibold"
               raised
-              @click="visible = true"
+              @click="visible = true; selectedRegion = region.key"
           >
             {{region.name}}
           </Button>
