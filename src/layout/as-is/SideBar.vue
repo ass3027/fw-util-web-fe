@@ -1,5 +1,5 @@
 <script setup>
-import RealTimeView from "@/views/RealTimeView.vue";
+import RealTimeView from "@/views/as-is/RealTimeView.vue";
 import { ref } from 'vue';
 
 const showRealTimeView = ref(false);
