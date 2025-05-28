@@ -64,6 +64,7 @@ const login = reactive({
     </Card>
     <Dialog v-model:visible="visible" pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">
+        <!--suppress CssUnresolvedCustomProperty -->
         <div
             class="flex flex-col px-8 py-8 gap-6 rounded-2xl"
             style="background-image: radial-gradient(circle at left top, var(--p-surface-50), var(--p-surface-300))">

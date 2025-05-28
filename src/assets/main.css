@@ -11,6 +11,7 @@
   /*background-color: var();*/
 }
 
+/*noinspection ALL*/
 :root {
   --color-background: var(--p-surface-100);
   --p-content-color: var(--p-surface-200);
@@ -19,24 +20,29 @@
   /*--p-menubar-border-color: var(--color-background);*/
 }
 
+/*noinspection ALL*/
 .p-card {
   background-color: var(--p-content-color);
 }
 
+/*noinspection ALL*/
 .p-button {
   color: var(--p-surface-100);
   /*background-color: var(--p-primary-700);*/
 }
 
+/*noinspection ALL*/
 .p-menubar {
   background-color: var(--color-background);
   border: none;
 }
 
+/*noinspection ALL*/
 .p-menubar-item-content {
   color: var(--p-surface-800);
 }
 
+/*noinspection ALL*/
 .p-menubar-item-content:hover {
   background: var(--p-surface-300);
 }
