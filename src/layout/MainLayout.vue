@@ -5,7 +5,7 @@ import TopBar from "@/layout/TopBar.vue";
 
 <template>
   <div class="w-full h-full px-64 py-8">
-    <TopBar/>
+    <TopBar class="mb-8"/>
     <router-view/>
   </div>
 </template>
