@@ -15,19 +15,25 @@
 /*noinspection ALL*/
 :root {
   --color-background: var(--p-surface-100);
-  --p-content-color: var(--p-surface-200);
+  --p-content-color: var(--p-surface-800);
+  --p-content-background: var(--p-surface-200);
 
   /*이게 맞나*/
   --p-menubar-color: var(--p-surface-800);
+  --p-datatable-border-color: var(--p-surface-300);
+  /*--p-input-text-background*/
+  --p-form-field-background: var(--p-surface-100);
+  --p-form-field-border-color: var(--p-surface-500);
+  --p-form-field-color: var(--p-surface-800);
   /*--p-card-background: var(--p-content-color);*/
   /*--p-menubar-background: var(--color-background);*/
   /*--p-menubar-border-color: var(--color-background);*/
 }
 
 /*noinspection ALL*/
-.p-card {
-  background-color: var(--p-content-color);
-}
+/*.p-card {*/
+/*  background-color: var(--p-content-color);*/
+/*}*/
 
 /*noinspection ALL*/
 .p-button {

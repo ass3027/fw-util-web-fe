@@ -27,7 +27,7 @@ const links = [
     <template #item="{ item, props }">
       <router-link :to="item.route" v-slot="{ href, navigate }">
         <a class="flex items-center mx-4" v-bind="props.action">
-          <span class="pi color-surface-800" :class="item.icon"/>
+          <span class="pi text-primary-500" :class="item.icon"/>
           <span>{{ item.label }}</span>
         </a>
       </router-link>
