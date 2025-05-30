@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {API, WS_API_URL} from "@/API.js";
+import {AS_IS_API, AS_IS_WS_API_URL} from "@/API.js";
 import { useRegionStore } from "@/stores/region.js";
 import { FilterMatchMode } from '@primevue/core/api';
 
@@ -34,7 +34,7 @@ async function getDBInfo(region) {
   loading.value = true
   const params = { region_id : region['id'] };
   try{
-    const res = await API.get("/db-info", { params })
+    const res = await AS_IS_API.get("/db-info", { params })
     data.dbDataList = res.data
     data.dbDataList.map(it => it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`)
   }catch(err){
@@ -51,7 +51,7 @@ const probeRtsp = async rtspUrl => {
 
 const openSocket = rtspUrl => {
   const regionId = regionStore.currentRegion.id;
-  const endpoint = `${WS_API_URL}/ws/ffprobe/${regionId}`;
+  const endpoint = `${AS_IS_WS_API_URL}/ws/ffprobe/${regionId}`;
   const ws = new WebSocket(endpoint);
   currentSocket = ws
 
