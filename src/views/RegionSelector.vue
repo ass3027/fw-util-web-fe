@@ -106,7 +106,9 @@ const login = reactive({
 
     </div>
 
-    <Dialog v-model:visible="visible" pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
+    <Dialog v-model:visible="visible"
+            :dismissableMask="true"
+            pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">
         <!--suppress CssUnresolvedCustomProperty -->
         <div
@@ -114,16 +116,16 @@ const login = reactive({
             @keyup.enter="login.login()"
             style="background-image: radial-gradient(circle at left top, var(--p-surface-50), var(--p-surface-300))">
           <div class="inline-flex flex-col gap-2">
-            <label for="username" class="text-primary-300 font-semibold">Username</label>
+            <label for="username" class="text-primary-300 font-extrabold">Username</label>
             <InputText id="username" v-model="login.username" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80"></InputText>
           </div>
           <div class="inline-flex flex-col gap-2">
-            <label for="password" class="text-primary-300 font-semibold">Password</label>
+            <label for="password" class="text-primary-300 font-bold">Password</label>
             <InputText id="password" v-model="login.password" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80" type="password"></InputText>
           </div>
           <div class="flex items-center gap-4">
-            <Button label="Login" @click="login.login()" text class="!p-4 w-full !text-primary-300 !border !border-white/30 hover:!bg-white/10"></Button>
-            <Button label="Cancel" @click="closeCallback" text class="!p-4 w-full !text-primary-300 !border !border-white/30 hover:!bg-white/10"></Button>
+            <Button @click="login.login()" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Login</Button>
+            <Button @click="closeCallback" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Cancel</Button>
           </div>
         </div>
       </template>
