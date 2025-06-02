@@ -3,6 +3,7 @@
 import { API } from "@/util/API.js";
 import {onMounted, reactive, ref} from "vue";
 import { useRouter } from "vue-router";
+import { setRegion } from "@/util/sessionUtil.js";
 
 const router = useRouter();
 onMounted(async _ => {
@@ -55,7 +56,7 @@ const login = reactive({
       return;
     }
     visible.value = false;
-    alert("로그인 성공");
+    setRegion(selectedRegion);
     router.push({name: "DBDataList", params: {region: selectedRegion}});
   }
 })
