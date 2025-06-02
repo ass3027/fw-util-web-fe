@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive} from "vue";
-import {API} from "@/API.js";
+import {API} from "@/util/API.js";
 
 const data = reactive({
   dbDataList: []

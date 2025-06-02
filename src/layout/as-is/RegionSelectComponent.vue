@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive } from "vue";
-import { API } from "@/API.js";
+import { API } from "@/util/API.js";
 import { useRegionStore } from "@/stores/region.js";
 
 const regionStore = useRegionStore();

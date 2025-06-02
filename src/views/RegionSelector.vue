@@ -1,6 +1,6 @@
 <script setup>
 "use strict";
-import { API } from "@/API";
+import { API } from "@/util/API.js";
 import {onMounted, reactive, ref} from "vue";
 import { useRouter } from "vue-router";
 
@@ -92,8 +92,6 @@ const login = reactive({
                         @click="visible = true; selectedRegion = region"
                     >
                       {{region.name.substring(0,2)}}
-<!--                      {{region.name.length < 4 ? region.name-->
-<!--                        : `${region.name.substring(0,2)} \n ${region.name.substring(2,region.name.length)}`}}-->
                     </Button>
                   </div>
                 </div>

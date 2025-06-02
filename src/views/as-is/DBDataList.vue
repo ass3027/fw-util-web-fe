@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {AS_IS_API, AS_IS_WS_API_URL} from "@/API.js";
+import {AS_IS_API, AS_IS_WS_API_URL} from "@/util/API.js";
 import { useRegionStore } from "@/stores/region.js";
 import { FilterMatchMode } from '@primevue/core/api';
 

@@ -2,7 +2,7 @@
 "use strict";
 import {onMounted, reactive} from "vue";
 import {FilterMatchMode} from "@primevue/core/api";
-import {API} from "@/API.js";
+import {API} from "@/util/API.js";
 
 onMounted(async _ => table.getCctvData())
 
