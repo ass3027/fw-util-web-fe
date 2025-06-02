@@ -43,22 +43,43 @@ const regions = reactive({
 
 const visible = ref(false);
 
-let selectedRegion = {};
 const login = reactive({
+  region: {},
   username: "",
   password: "",
-  isAuthenticated() {
-    return this.password === "1234";
-  },
   login() {
     if(!this.isAuthenticated()){
       alert("로그인 실패");
       return;
     }
     visible.value = false;
-    setRegion(selectedRegion);
-    router.push({name: "DBDataList", params: {region: selectedRegion}});
-  }
+    setRegion(this.region);
+    router.push("DBDataList");
+  },
+  async isAuthenticated() {
+    const loginData = {
+      id: this.username,
+      password: this.password,
+      host: this.region.ip,
+      port: this.region.port,
+      region: this.region.name
+    };
+    try {
+      await API.post("/ssh_connect", loginData)
+      return true;
+    }catch (e){
+      switch(e.status){
+        case 400: return await this.reconnect(loginData);
+        case 401: alert("로그인 인중 실패"); return false;
+        case 500: alert("연결 실패"); return false;
+      }
+    }
+  },
+  async reconnect(loginData) {
+    alert("기존 연결을 끊고 다시 연결합니다");
+    await API.post("/ssh_disconnect", loginData)
+    return this.isAuthenticated();
+  },
 })
 
 </script>
@@ -90,7 +111,7 @@ const login = reactive({
                     <Button
                         class="flex-1 text-xl font-extrabold text-pretty px-4 py-3"
                         raised
-                        @click="visible = true; selectedRegion = region"
+                        @click="visible = true; login.region = region"
                     >
                       {{region.name.substring(0,2)}}
                     </Button>
