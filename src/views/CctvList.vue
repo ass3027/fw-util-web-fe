@@ -37,7 +37,6 @@ const cctvTable = reactive({
 </script>
 
 <template>
-<!--  <Card class="w-full h-full">-->
   <Card class="">
     <template #title>
       <span class="font-bold">CCTV List</span>
