@@ -12,10 +12,15 @@ const routes = [
     component: () => import('@/layout/MainLayout.vue'),
     children: [
       {
-        path: 'db-data-list',
-        name: 'DBDataList',
-        component: () => import('@/views/DBDataList.vue')
+        path: 'cctv-list',
+        name: 'CctvList',
+        component: () => import('@/views/CctvList.vue')
       },
+      {
+        path: '/cctv-log',
+        name: 'CctvLog',
+        component: () => import('@/views/CctvLog.vue')
+      }
     ]
   },
   {

@@ -58,7 +58,7 @@ const login = reactive({
     }
     visible.value = false;
     setRegion(this.region);
-    await router.push("db-data-list");
+    await router.push("cctv-list");
   },
   async isAuthenticated() {
     const loginData = {

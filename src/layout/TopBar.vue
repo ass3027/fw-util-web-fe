@@ -4,14 +4,14 @@ import { getRegion } from "@/util/sessionUtil.js";
 
 const links = [
   {
-    label: 'DBDataList',
+    label: 'CCTV List',
     icon: 'pi-list',
-    route: '/db-data-list'
+    route: '/cctv-list'
   },
   {
-    label: 'ConnectionFailList',
+    label: 'CCTV Log',
     icon: 'pi-history',
-    route: '/connection-fail-list'
+    route: '/cctv-log'
   },
   {
     label: 'RealTimeView',
