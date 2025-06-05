@@ -47,14 +47,18 @@ const login = reactive({
   region: {},
   username: "",
   password: "",
-  login() {
-    if(!this.isAuthenticated()){
-      alert("로그인 실패");
+  loading: false,
+  async login() {
+    this.loading = true;
+    const authenticateResult = await this.isAuthenticated();
+    this.loading = false;
+    if(!authenticateResult.status){
+      alert(authenticateResult.msg);
       return;
     }
     visible.value = false;
     setRegion(this.region);
-    router.push("DBDataList");
+    await router.push("db-data-list");
   },
   async isAuthenticated() {
     const loginData = {
@@ -66,12 +70,12 @@ const login = reactive({
     };
     try {
       await API.post("/ssh_connect", loginData)
-      return true;
+      return { status: true };
     }catch (e){
       switch(e.status){
         case 400: return await this.reconnect(loginData);
-        case 401: alert("로그인 인중 실패"); return false;
-        case 500: alert("연결 실패"); return false;
+        case 401: return {status: false, msg: "로그인 인증  실패"};
+        case 500: return {status: false, msg: "연결 실패"};
       }
     }
   },
@@ -132,22 +136,24 @@ const login = reactive({
             pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">
         <!--suppress CssUnresolvedCustomProperty -->
-        <div
-            class="flex flex-col px-8 py-8 gap-6 rounded-2xl"
+        <div class="px-8 py-8 rounded-2xl"
             @keyup.enter="login.login()"
             style="background-image: radial-gradient(circle at left top, var(--p-surface-50), var(--p-surface-300))">
-          <div class="inline-flex flex-col gap-2">
-            <label for="username" class="text-primary-300 font-extrabold">Username</label>
-            <InputText id="username" v-model="login.username" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80"></InputText>
+          <div v-if="!login.loading" class="login-panel flex flex-col gap-6">
+            <div class="inline-flex flex-col gap-2">
+              <label for="username" class="text-primary-300 font-extrabold">Username</label>
+              <InputText id="username" v-model="login.username" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80"></InputText>
+            </div>
+            <div class="inline-flex flex-col gap-2">
+              <label for="password" class="text-primary-300 font-bold">Password</label>
+              <InputText id="password" v-model="login.password" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80" type="password"></InputText>
+            </div>
+            <div class="flex items-center gap-4">
+              <Button @click="login.login()" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Login</Button>
+              <Button @click="closeCallback" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Cancel</Button>
+            </div>
           </div>
-          <div class="inline-flex flex-col gap-2">
-            <label for="password" class="text-primary-300 font-bold">Password</label>
-            <InputText id="password" v-model="login.password" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80" type="password"></InputText>
-          </div>
-          <div class="flex items-center gap-4">
-            <Button @click="login.login()" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Login</Button>
-            <Button @click="closeCallback" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Cancel</Button>
-          </div>
+          <ProgressSpinner v-else/>
         </div>
       </template>
     </Dialog>
