@@ -4,30 +4,29 @@ import {onMounted, reactive} from "vue";
 import {FilterMatchMode} from "@primevue/core/api";
 import {API} from "@/util/API.js";
 
-onMounted(async _ => table.getCctvData())
+onMounted(async _ => cctvTable.fetch())
 
-const table = reactive({
+const cctvTable = reactive({
   data: [],
   loading: false,
   filters: {
     L2L3 : { value: null, matchMode: FilterMatchMode.CONTAINS},
     global: { value: null, matchMode: FilterMatchMode.CONTAINS}
   },
-  async getCctvData() {
+  async fetch() {
     this.loading = true;
-    const res = await API.get("/cctv-list")
-    res.data
-    setTimeout(() => {
-      this.data = tempData;
-      this.loading = false
-    }, 2000)
+    const res = await API.post("/cctv_data")
+    this.data = res.data.message;
+    this.data.forEach( it =>
+        it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`
+    )
+    this.loading = false
+  },
+  async runFfprobe(data) {
+    //TODO implement
+    console.log(data)
   }
 });
-
-const tempData = [
-  {}
-]
-
 </script>
 
 <template>
@@ -39,13 +38,12 @@ const tempData = [
     <template #content>
       <DataTable
           class="border-2 border-surface-300"
-          :value="table.data"
-          :filters="table.filters"
+          :value="cctvTable.data"
+          :filters="cctvTable.filters"
           filter-display="menu"
-          :loading="table.loading"
+          :loading="cctvTable.loading"
           :globalFilterFields="['cctv_name']"
           tableStyle="min-width: 50rem"
-          stripedRows
           paginator size="small"
           :rows="10" :rows-per-page-options="[10,30,50]"
       >
@@ -57,7 +55,7 @@ const tempData = [
                 <i class="pi pi-search text-primary-500"/>
               </InputIcon>
               <InputText class="h-9"
-                         v-model="table.filters['global'].value" placeholder="이름 검색"/>
+                         v-model="cctvTable.filters['global'].value" placeholder="이름 검색"/>
             </IconField>
           </div>
         </template>
@@ -70,7 +68,7 @@ const tempData = [
                 @change="filterCallback()"
                 :options="Array.from(
                   new Set(
-                      table.data.map(it => it['cctv_address']['L2']).sort()
+                      cctvTable.data.map(it => it['cctv_address']['L2']).sort()
                   ))"
             />
           </template>
@@ -81,11 +79,11 @@ const tempData = [
         <Column class="w-2/30 px-3">
           <template #body="{ data }">
             <Button
-                class="font-medium"
-                label="Probe"
+                class="font-bold"
                 severity="error"
                 raised
-            />
+                @click="cctvTable.runFfprobe(data)"
+            >Probe</Button>
           </template>
         </Column>
       </DataTable>
