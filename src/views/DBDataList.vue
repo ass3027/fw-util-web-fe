@@ -8,6 +8,7 @@ onMounted(async _ => cctvTable.fetch())
 
 const cctvTable = reactive({
   data: [],
+  L2Set: [],
   loading: false,
   filters: {
     L2L3 : { value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -16,10 +17,16 @@ const cctvTable = reactive({
   async fetch() {
     this.loading = true;
     const res = await API.post("/cctv_data")
-    this.data = res.data.message;
-    this.data.forEach( it =>
+    const data = res.data.message;
+    data.forEach( it =>
         it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`
     )
+    //TODO 지역 filter 작동 잘 안됨. L2 Set 은 정상
+    this.L2Set = Array.from(
+        new Set(data.map(it => it['cctv_address']['L2']).sort())
+    )
+
+    this.data = data
     this.loading = false
   },
   async runFfprobe(data) {
@@ -66,10 +73,7 @@ const cctvTable = reactive({
           <template #filter="{ filterModel, filterCallback }">
             <MultiSelect v-model="filterModel.value"
                 @change="filterCallback()"
-                :options="Array.from(
-                  new Set(
-                      cctvTable.data.map(it => it['cctv_address']['L2']).sort()
-                  ))"
+                :options="cctvTable.L2Set"
             />
           </template>
         </Column>
