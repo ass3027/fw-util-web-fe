@@ -1,5 +1,7 @@
 <script setup lang="ts">
 "use strict";
+import { getRegion } from "@/util/sessionUtil.js";
+
 const links = [
   {
     label: 'DBDataList',
@@ -33,7 +35,10 @@ const links = [
       </router-link>
     </template>
     <template #end>
-<!--      <div class="gap-2 flex-row flex">-->
+      <div class="p-2 bg-surface-200 rounded-xl">
+        <span>{{ getRegion().name }}</span>
+      </div>
+      <!--      <div class="gap-2 flex-row flex">-->
 <!--        <div class="p-2 bg-surface-200 rounded-xl">-->
 <!--          <span>경남</span>-->
 <!--        </div>-->
