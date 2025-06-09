@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/region-selector',
+    path: '/login',
     name: 'Home',
     component: () => import('@/views/RegionSelector.vue')
   },

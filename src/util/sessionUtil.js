@@ -3,7 +3,7 @@
 const getRegion = _ => {
     const regionJson = sessionStorage.getItem("region");
     if (regionJson === null)
-        location.href = "/region-selector";
+        location.href = "/login";
 
     return JSON.parse(regionJson)
 }
