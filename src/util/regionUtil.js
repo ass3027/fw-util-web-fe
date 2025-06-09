@@ -2,11 +2,16 @@
 
 const getRegion = _ => {
     const regionJson = sessionStorage.getItem("region");
-    if (regionJson === null)
+    if (regionJson === null){
         location.href = "/login";
+        return;
+    }
 
-    return JSON.parse(regionJson)
+    return JSON.parse(regionJson);
 }
+
 const setRegion = value => sessionStorage.setItem("region", JSON.stringify(value))
 
-export { getRegion, setRegion }
+const deleteRegion = _ => sessionStorage.removeItem("region");
+
+export { getRegion, setRegion, deleteRegion }

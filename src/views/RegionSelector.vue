@@ -3,7 +3,7 @@
 import { API } from "@/util/API.js";
 import {onMounted, reactive, ref} from "vue";
 import { useRouter } from "vue-router";
-import { setRegion } from "@/util/sessionUtil.js";
+import * as loginUtil from "@/util/loginUtil.js"
 
 const router = useRouter();
 onMounted(async _ => {
@@ -41,7 +41,7 @@ const regions = reactive({
 });
 
 
-const visible = ref(false);
+const loginModalVisible = ref(false);
 
 const login = reactive({
   region: {},
@@ -50,42 +50,11 @@ const login = reactive({
   loading: false,
   async login() {
     this.loading = true;
-    const authenticateResult = await this.isAuthenticated();
+    await loginUtil.login(login.region, this.username, this.password)
     this.loading = false;
-    if(!authenticateResult.status){
-      alert(authenticateResult.msg);
-      return;
-    }
-    visible.value = false;
-    setRegion(this.region);
-    await router.push("cctv-list");
-  },
-  async isAuthenticated() {
-    const loginData = {
-      id: this.username,
-      password: this.password,
-      host: this.region.ip,
-      port: this.region.port,
-      region: this.region.name
-    };
-    try {
-      await API.post("/ssh_connect", loginData)
-      return { status: true };
-    }catch (e){
-      switch(e.status){
-        case 400: return await this.reconnect(loginData);
-        case 401: return {status: false, msg: "로그인 인증  실패"};
-        case 500: return {status: false, msg: "연결 실패"};
-      }
-    }
-  },
-  async reconnect(loginData) {
-    alert("기존 연결을 끊고 다시 연결합니다");
-    await API.post("/ssh_disconnect", loginData)
-    return this.isAuthenticated();
-  },
+    loginModalVisible.value = false;
+  }
 })
-
 </script>
 
 <template>
@@ -115,7 +84,7 @@ const login = reactive({
                     <Button
                         class="flex-1 text-xl font-extrabold text-pretty px-4 py-3"
                         raised
-                        @click="visible = true; login.region = region"
+                        @click="loginModalVisible = true; login.region = region"
                     >
                       {{region.name.substring(0,2)}}
                     </Button>
@@ -131,7 +100,7 @@ const login = reactive({
 
     </div>
 
-    <Dialog v-model:visible="visible"
+    <Dialog v-model:visible="loginModalVisible"
             :dismissableMask="true"
             pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">

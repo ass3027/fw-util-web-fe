@@ -1,7 +1,7 @@
 <script setup lang="ts">
 "use strict";
-import { getRegion } from "@/util/sessionUtil.js";
-
+import { getRegion } from "@/util/regionUtil.js";
+import * as loginUtil from "../util/loginUtil.js";
 const links = [
   {
     label: 'CCTV List',
@@ -27,7 +27,7 @@ const links = [
       <img class="mr-8" src="@/assets/fw-logo.svg" alt="">
     </template>
     <template #item="{ item, props }">
-      <router-link :to="item.route" v-slot="{ href, navigate }">
+      <router-link :to="item.route">
         <a class="flex items-center mx-4" v-bind="props.action">
           <span class="pi text-primary-500" :class="item.icon"/>
           <span>{{ item.label }}</span>
@@ -35,20 +35,17 @@ const links = [
       </router-link>
     </template>
     <template #end>
-      <div class="p-2 bg-surface-200 rounded-xl">
-        <span>{{ getRegion().name }}</span>
+      <div class="flex gap-5">
+        <div class="px-4 py-2 bg-surface-200 rounded-xl">
+          <span class="font-bold">{{ getRegion().name }}</span>
+        </div>
+        <div class="flex justify-center items-center gap-2"
+             @click="loginUtil.logout()"
+        >
+          <span class="pi pi-replay text-primary-500"/>
+          <span>지역선택</span>
+        </div>
       </div>
-      <!--      <div class="gap-2 flex-row flex">-->
-<!--        <div class="p-2 bg-surface-200 rounded-xl">-->
-<!--          <span>경남</span>-->
-<!--        </div>-->
-<!--        <div class="p-2 bg-surface-200 rounded-xl">-->
-<!--          <span>중계 서버: {{"O"}}</span>-->
-<!--        </div>-->
-<!--        <div class="p-2 bg-surface-200 rounded-xl">-->
-<!--          <span>분석 서버: {{3}}</span>-->
-<!--        </div>-->
-<!--      </div>-->
     </template>
   </Menubar>
 </template>
