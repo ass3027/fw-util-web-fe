@@ -1,7 +1,7 @@
 <script setup lang="ts">
 "use strict";
 import { getRegion } from "@/util/regionUtil.js";
-import * as loginUtil from "../util/loginUtil.js";
+import * as loginUtil from "@/util/loginUtil.js";
 const links = [
   {
     label: 'CCTV List',

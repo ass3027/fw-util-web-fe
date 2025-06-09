@@ -1,6 +1,6 @@
 <script setup>
 
-import TopBar from "@/layout/TopBar.vue";
+import TopBar from "@/views/layout/TopBar.vue";
 </script>
 
 <template>

@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'MainLayout',
-    component: () => import('@/layout/MainLayout.vue'),
+    component: () => import('@/views/layout/MainLayout.vue'),
     children: [
       {
         path: 'cctv-list',
@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/as-is',
-    component: () => import('@/layout/as-is/MainLayout.vue'),
+    component: () => import('@/views/layout/as-is/MainLayout.vue'),
     children: [
       {
         path: 'db-data-list',
