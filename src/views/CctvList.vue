@@ -3,6 +3,7 @@
 import {onMounted, reactive} from "vue";
 import {FilterMatchMode} from "@primevue/core/api";
 import {API} from "@/util/API.js";
+import FFProbeDialog from "@/views/component/FFProbeDialog.vue";
 
 onMounted(async _ => cctvTable.fetch())
 
@@ -28,12 +29,14 @@ const cctvTable = reactive({
 
     this.data = data
     this.loading = false
-  },
-  async runFfprobe(data) {
-    //TODO implement
-    console.log(data)
   }
 });
+
+const ffmpegModal = reactive({
+  url: "",
+  visible: false,
+  inferenceId: "",
+})
 </script>
 
 <template>
@@ -85,13 +88,17 @@ const cctvTable = reactive({
                 class="font-bold"
                 severity="error"
                 raised
-                @click="cctvTable.runFfprobe(data)"
+                @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']"
             >FFProbe</Button>
           </template>
         </Column>
       </DataTable>
     </template>
   </Card>
+  <FFProbeDialog :visible="ffmpegModal.visible"
+                 :url="ffmpegModal.url"
+                 :inference-id="ffmpegModal.inferenceId"
+                 @close="ffmpegModal.visible = false"/>
 </template>
 
 <style scoped>
