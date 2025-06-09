@@ -12,36 +12,50 @@ onMounted(async () => {
   })).data.message
 })
 
+const LOG_TYPE = {
+  GSTREAMER: {
+    name: "GSTREAMER",
+    url: "/gstreamer_log",
+    getFindWord: _ => "Connect failed list"
+  },
+  FFMPEG: {
+    name: "FFMPEG",
+    url: "/ffmpeg_log",
+    getFindWord: _ => log.option.targetCctv.url
+  }
+};
+
 const log = reactive({
   data: [],
-  fetch: {
+  option: {
+    logType: LOG_TYPE.GSTREAMER,
     targetCctv: undefined,
-    param: {
-      inference_id: "svr10",
-      date: "2025-06-05",
-      find_word: "rtsp://admin:admin@192.168.12.252/1/stream1",
-    },
-    async ffmpeg() {
-      const validateParam = this.validateParam();
-      if(!validateParam.status){
-        alert(validateParam.msg)
-        return
+    date: getNow(),
+  },
+  fetch: {
+    async run() {
+      const validateOption = this.validateOption();
+      if(!validateOption.status){
+        alert(validateOption.msg);
+        return;
       }
-      const res = await API.post("/ffmpeg_log",this.getParam())
+      const res = await API.post(log.option.logType.url, this.getParam());
       log.data = res.data.message;
     },
-    validateParam(){
-      if(this.targetCctv === undefined)
+    getParam(){
+      return {
+        inference_id: log.option.targetCctv.inference_id,
+        date: log.option.date,
+        find_word: log.option.logType.getFindWord(),
+      };
+    },
+    validateOption(){
+      if(log.option.targetCctv === undefined)
         return {status: false, msg: "CCTV를 선택 해주세요."}
-      if(this.param.date === "")
+      if(log.option.date === "")
         return {status: false, msg: "날짜를 선택 해주세요."}
       return  { status: true }
     },
-    getParam(){
-      this.param.inference_id = this.targetCctv.inference_id;
-      this.param.find_word = this.targetCctv.url;
-      return this.param;
-    }
   }
 })
 
@@ -56,6 +70,14 @@ const cctv = reactive({
     this.data = data
   },
 })
+
+function getNow() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, '0');
+  const day = today.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 </script>
 
 <template>
@@ -65,8 +87,19 @@ const cctv = reactive({
       <template #content>
         <div class="flex justify-items-start gap-6">
           <div class="flex flex-col gap-2">
+            <label for="cctv-select" class="font-bold" >Log 타입</label>
+            <div class="flex-1 flex gap-3 justify-center items-center">
+              <div v-for="logType in LOG_TYPE" :key="logType"
+                   class="flex items-center gap-2">
+                <RadioButton v-model="log.option.logType"
+                             :inputId="logType.name" :value="logType"/>
+                <label :for="logType">{{ logType.name }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
             <label for="cctv-select" class="font-bold" >CCTV</label>
-            <Select v-model="log.fetch.targetCctv" :options="cctv.data"
+            <Select v-model="log.option.targetCctv" :options="cctv.data"
                 optionLabel="cctv_name"
                 filter
                 placeholder="Select a CCTV"
@@ -75,18 +108,21 @@ const cctv = reactive({
           </div>
           <div class="flex flex-col gap-2">
             <label for="log-date-picker" class="font-bold"> 날짜 </label>
-            <DatePicker v-model="log.fetch.param.date" dateFormat="yy-mm-dd"
+            <DatePicker v-model="log.option.date" dateFormat="yy-mm-dd"
                 showIcon
                 inputId="log-date-picker"
             />
           </div>
-          <Button @click="log.fetch.ffmpeg()" raised>조회</Button>
+          <Button @click="log.fetch.run()" raised>조회</Button>
         </div>
       </template>
     </Card>
     <Card class="flex-1 min-h-0 overflow-auto">
       <template #content>
-        <span class="whitespace-pre">{{ log.data.join("\n") }}</span>
+        <span v-if="log.data.length !== 0" class="whitespace-pre">
+          {{ log.data.join("\n") }}
+        </span>
+        <span v-else class="font-bold text-3xl">검색된 로그 없음</span>
       </template>
     </Card>
   </div>
