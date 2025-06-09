@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 "use strict";
 import { getRegion } from "@/util/regionUtil.js";
 import * as loginUtil from "@/util/loginUtil.js";

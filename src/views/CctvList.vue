@@ -37,7 +37,7 @@ const cctvTable = reactive({
 </script>
 
 <template>
-  <Card class="">
+  <Card>
     <template #title>
       <span class="font-bold">CCTV List</span>
     </template>
@@ -86,7 +86,7 @@ const cctvTable = reactive({
                 severity="error"
                 raised
                 @click="cctvTable.runFfprobe(data)"
-            >Probe</Button>
+            >FFProbe</Button>
           </template>
         </Column>
       </DataTable>
