@@ -84,13 +84,9 @@ const cctv = reactive({
         </div>
       </template>
     </Card>
-<!--    <div class="h-[500px] overflow-y-auto">-->
-<!--    <div class="grow overflow-y-auto">-->
-<!--      {{ log.data.join("&nbsp;")}}-->
-<!--    </div>-->
     <Card class="flex-1 min-h-0 overflow-auto">
       <template #content>
-        {{ log.data.join("&nbsp;")}}
+        <span class="whitespace-pre">{{ log.data.join("\n") }}</span>
       </template>
     </Card>
   </div>
