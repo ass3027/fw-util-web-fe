@@ -15,11 +15,23 @@
 /*noinspection ALL*/
 :root {
   --color-background: var(--p-surface-100);
+  --p-text-color: var(--p-surface-800);
+
   --p-content-color: var(--p-surface-800);
   --p-content-background: var(--p-surface-200);
+  --p-content-border-color: var(--p-surface-400);
+
+  --p-overlay-select-border-color: var(--p-surface-400);
+  --p-overlay-modal-border-color: var(--p-surface-400);
+  --p-overlay-popover-background: var(--p-surface-100);
+  --p-overlay-popover-border-color: var(--p-surface-400);
 
   /*이게 맞나*/
   --p-menubar-color: var(--p-surface-800);
+  --p-navigation-item-focus-background: var(--p-surface-200);
+  --p-overlay-select-background: var(--p-surface-200);
+  --p-overlay-select-color: var(--p-surface-800);
+
   --p-datatable-border-color: var(--p-surface-300);
   /*--p-input-text-background*/
   --p-form-field-background: var(--p-surface-100);
@@ -54,31 +66,9 @@
 
 /*noinspection ALL*/
 .p-menubar-item-content:hover {
-  background: var(--p-surface-300);
+  background: var(--p-surface-200);
 }
-/*a,*/
-/*.green {*/
-/*  text-decoration: none;*/
-/*  color: hsla(160, 100%, 37%, 1);*/
-/*  transition: 0.4s;*/
-/*  padding: 3px;*/
-/*}*/
 
-/*@media (hover: hover) {*/
-/*  a:hover {*/
-/*    background-color: hsla(160, 100%, 37%, 0.2);*/
-/*  }*/
-/*}*/
-
-/*@media (min-width: 1024px) {*/
-/*  body {*/
-/*    display: flex;*/
-/*    place-items: center;*/
-/*  }*/
-
-/*  #app {*/
-/*    display: grid;*/
-/*    grid-template-columns: 1fr 1fr;*/
-/*    padding: 0 2rem;*/
-/*  }*/
-/*}*/
+.p-datepicker-header button {
+  color: var(--p-surface-800);
+}
