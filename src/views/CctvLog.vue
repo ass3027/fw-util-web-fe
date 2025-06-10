@@ -1,15 +1,22 @@
 <script setup>
-
+"use strict";
 import {onMounted, reactive} from "vue";
 import {API} from "@/util/API.js";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
 
 onMounted(async () => {
-  cctv.fetch()
-  log.data = (await API.post("/ffmpeg_log",{
-    date: "2025-06-05",
-    find_word: "rtsp://admin:admin@192.168.12.252/22/stream1",
-    inference_id: "svr10"
-  })).data.message
+  await cctv.fetch()
+  console.log(route.query)
+  const queryCctvId = route.query['cctvId'];
+  if(queryCctvId === undefined)
+    return;
+
+  log.option.logType = LOG_TYPE.FFMPEG;
+  log.option.targetCctv = cctv.data.filter(it => it['cctv_ID'] === Number(queryCctvId))[0];
+
+  await log.fetch.run()
 })
 
 // noinspection JSUnusedGlobalSymbols

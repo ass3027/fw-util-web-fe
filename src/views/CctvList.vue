@@ -4,6 +4,9 @@ import {onMounted, reactive} from "vue";
 import {FilterMatchMode} from "@primevue/core/api";
 import {API} from "@/util/API.js";
 import FFProbeDialog from "@/views/component/FFProbeDialog.vue";
+import {useRouter} from "vue-router";
+
+const router =  useRouter();
 
 onMounted(async _ => cctvTable.fetch())
 
@@ -55,6 +58,7 @@ const ffmpegModal = reactive({
           tableStyle="min-width: 50rem"
           paginator size="small"
           :rows="10" :rows-per-page-options="[10,30,50]"
+          @rowClick="event => router.push(`/cctv-log?cctvId=${event.data['cctv_ID']}`)"
       >
         <template #loading>Loading data...</template>
         <template #header>
