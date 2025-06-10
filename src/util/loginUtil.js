@@ -5,7 +5,14 @@ import {API} from "@/util/API.js";
 
 
 async function login(region, username, password) {
-    const authenticateResult = await isAuthenticated(region, username, password);
+    const loginData = {
+        id: username,
+        password: password,
+        host: region.ip,
+        port: region.port,
+        region: region.name
+    };
+    const authenticateResult = await isAuthenticated(loginData);
     if(!authenticateResult.status){
         alert(authenticateResult.msg);
         return;
@@ -20,15 +27,8 @@ function logout() {
     location.href = "/login";
 }
 
-async function isAuthenticated(region, username, password) {
-    console.log(region)
-    const loginData = {
-        id: username,
-        password: password,
-        host: region.ip,
-        port: region.port,
-        region: region.name
-    };
+async function isAuthenticated(loginData) {
+    console.log(loginData)
     try {
         await API.post("/ssh_connect", loginData)
         return { status: true };
@@ -44,7 +44,7 @@ async function isAuthenticated(region, username, password) {
 async function reconnect(loginData){
     alert("기존 연결을 끊고 다시 연결합니다");
     await API.post("/ssh_disconnect", loginData)
-    return isAuthenticated();
+    return isAuthenticated(loginData);
 }
 
 export { login, logout };
