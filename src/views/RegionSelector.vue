@@ -99,7 +99,7 @@ const login = reactive({
     </div>
 
     <Dialog v-model:visible="loginModalVisible"
-            class="w-[18vw] h-[34vh] flex"
+            class="w-[400px] h-[350px] flex"
             :dismissableMask="true"
             pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">
@@ -107,7 +107,7 @@ const login = reactive({
         <div class="flex flex-1 justify-center items-center px-8 py-8 rounded-2xl"
             @keyup.enter="login.login()"
             style="background-image: radial-gradient(circle at left top, var(--p-surface-50), var(--p-surface-300))">
-          <div v-if="!login.loading" class="login-panel flex flex-col gap-6">
+          <div v-if="!login.loading" class="flex flex-col gap-6">
             <div class="inline-flex flex-col gap-2">
               <label for="username" class="text-primary-300 font-extrabold">Username</label>
               <InputText id="username" v-model="login.username" class="!bg-white/20 !border-0 !p-4 !text-primary-300 w-80"></InputText>
