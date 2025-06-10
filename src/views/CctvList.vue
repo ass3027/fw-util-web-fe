@@ -43,13 +43,18 @@ const ffmpegModal = reactive({
 </script>
 
 <template>
-  <Card>
+  <Card class="flex-1 min-h-0"
+        pt:body:class="flex flex-1 min-h-0"
+        pt:content:class="flex flex-1 min-h-0"
+  >
     <template #title>
       <span class="font-bold">CCTV List</span>
     </template>
     <template #content>
       <DataTable
-          class="border-2 border-surface-300"
+          class="border-2 border-surface-300 flex-1 flex flex-col"
+          pt:tableContainer:class="flex-1 flex min-h-0"
+          pt:bodyRow:class="h-1/10"
           :value="cctvTable.data"
           v-model:filters="cctvTable.filters"
           filter-display="menu"
@@ -74,7 +79,7 @@ const ffmpegModal = reactive({
           </div>
         </template>
         <Column class="w-1/30 px-3" field="cctv_ID" header="ID" :sortable="true"/>
-        <Column class="w-3/30 px-3" header="지역" field="L2L3"
+        <Column class="w-4/30 px-3" header="지역" field="L2L3"
                 :showFilterMatchModes="false"
                 :filterMenuStyle="{ width: '14rem' }">
           <template #filter="{ filterModel, filterCallback }">
@@ -84,7 +89,7 @@ const ffmpegModal = reactive({
             />
           </template>
         </Column>
-        <Column class="w-7/30 px-3" field="cctv_name" header="Name" :sortable="true"/>
+        <Column class="w-6/30 px-3" field="cctv_name" header="Name" :sortable="true"/>
         <Column class="w-1/30 px-3" field="inference_id" header="Inference" :sortable="true"/>
         <Column field="url" header="RTSP_URL" :sortable="true"/>
         <Column class="w-2/30 px-3">
