@@ -14,13 +14,16 @@
 
 /*noinspection ALL*/
 :root {
-  --color-background: var(--p-surface-100);
   --p-text-color: var(--p-surface-800);
+  --p-text-muted-color: var(--p-surface-600);
 
   --p-content-color: var(--p-surface-800);
   --p-content-background: var(--p-surface-200);
   --p-content-border-color: var(--p-surface-400);
   --p-content-hover-background: var(--p-surface-700);
+
+  --p-button-primary-color: var(--p-surface-100);
+  --p-button-text-secondary-color: var(--p-surface-600);
 
   --p-overlay-select-border-color: var(--p-surface-400);
   --p-overlay-modal-border-color: var(--p-surface-400);
@@ -34,24 +37,9 @@
   --p-overlay-select-color: var(--p-surface-800);
 
   --p-datatable-border-color: var(--p-surface-300);
-  /*--p-input-text-background*/
   --p-form-field-background: var(--p-surface-100);
   --p-form-field-border-color: var(--p-surface-500);
   --p-form-field-color: var(--p-surface-800);
-  /*--p-card-background: var(--p-content-color);*/
-  /*--p-menubar-background: var(--color-background);*/
-  /*--p-menubar-border-color: var(--color-background);*/
-}
-
-/*noinspection ALL*/
-/*.p-card {*/
-/*  background-color: var(--p-content-color);*/
-/*}*/
-
-/*noinspection ALL*/
-.p-button {
-  color: var(--p-surface-100);
-  /*background-color: var(--p-primary-700);*/
 }
 
 /*noinspection ALL*/
