@@ -101,11 +101,12 @@ const login = reactive({
     </div>
 
     <Dialog v-model:visible="loginModalVisible"
+            class="w-[18vw] h-[34vh] flex"
             :dismissableMask="true"
             pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
       <template #container="{ closeCallback }">
         <!--suppress CssUnresolvedCustomProperty -->
-        <div class="px-8 py-8 rounded-2xl"
+        <div class="flex flex-1 justify-center items-center px-8 py-8 rounded-2xl"
             @keyup.enter="login.login()"
             style="background-image: radial-gradient(circle at left top, var(--p-surface-50), var(--p-surface-300))">
           <div v-if="!login.loading" class="login-panel flex flex-col gap-6">
@@ -122,7 +123,7 @@ const login = reactive({
               <Button @click="closeCallback" text class="!p-4 w-full font-bold !text-primary-300 !border !border-white/30 hover:!bg-white/10">Cancel</Button>
             </div>
           </div>
-          <ProgressSpinner v-else/>
+          <ProgressSpinner v-else class="w-[150px] h-[150px]"/>
         </div>
       </template>
     </Dialog>
