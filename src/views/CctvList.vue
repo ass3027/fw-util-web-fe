@@ -51,7 +51,7 @@ const ffmpegModal = reactive({
       <DataTable
           class="border-2 border-surface-300"
           :value="cctvTable.data"
-          :filters="cctvTable.filters"
+          v-model:filters="cctvTable.filters"
           filter-display="menu"
           :loading="cctvTable.loading"
           :globalFilterFields="['cctv_name']"
@@ -75,7 +75,7 @@ const ffmpegModal = reactive({
         </template>
         <Column class="w-1/30 px-3" field="cctv_ID" header="ID" :sortable="true"/>
         <Column class="w-3/30 px-3" header="지역" field="L2L3"
-                :showFilterMatchModes="true"
+                :showFilterMatchModes="false"
                 :filterMenuStyle="{ width: '14rem' }">
           <template #filter="{ filterModel, filterCallback }">
             <MultiSelect v-model="filterModel.value"
