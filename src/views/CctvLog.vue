@@ -159,7 +159,10 @@ function getNow() {
         </div>
       </template>
     </Card>
-    <Card class="flex-1 min-h-0 overflow-auto">
+    <Card class="flex flex-1 min-h-0"
+          pt:body:class="flex flex-1 min-h-0"
+          pt:content:class="flex flex-1 min-h-0 p-3 bg-surface-100 border-surface-300 border-2 rounded overflow-auto"
+    >
       <template #content>
         <span v-if="log.data.length !== 0" class="whitespace-pre">
           {{ log.data.join("\n") }}
