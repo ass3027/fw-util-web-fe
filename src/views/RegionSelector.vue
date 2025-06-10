@@ -2,10 +2,8 @@
 "use strict";
 import { API } from "@/util/API.js";
 import {onMounted, reactive, ref} from "vue";
-import { useRouter } from "vue-router";
 import * as loginUtil from "@/util/loginUtil.js"
 
-const router = useRouter();
 onMounted(async _ => {
   await regions.fetch();
 })
