@@ -8,12 +8,17 @@ import {useRouter} from "vue-router";
 
 const router =  useRouter();
 
-onMounted(async _ => cctvTable.fetch())
+onMounted(async _ => {
+  const isQHD = screen.width === 2560
+  cctvTable.rowSize = isQHD ? 15 : 10;
+  cctvTable.fetch()
+})
 
 const cctvTable = reactive({
   data: [],
   L2Set: [],
   loading: false,
+  rowSize: 0,
   filters: {
     L2L3 : { value: null, matchMode: FilterMatchMode.CONTAINS},
     global: { value: null, matchMode: FilterMatchMode.CONTAINS}
@@ -63,7 +68,7 @@ const ffmpegModal = reactive({
           tableStyle="min-width: 50rem"
           selection-mode="single"
           paginator size="small"
-          :rows="10" :rows-per-page-options="[10,30,50]"
+          :rows="cctvTable.rowSize" :rows-per-page-options="[10,15,20,30,50]"
           @rowClick="event => router.push(`/cctv-log?cctvId=${event.data['cctv_ID']}`)"
       >
         <template #loading>Loading data...</template>
