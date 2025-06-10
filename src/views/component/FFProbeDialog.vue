@@ -22,8 +22,14 @@ const ffmpegResult = ref("")
 async function runFFprobe() {
   const body = { url, inference_id: inferenceId };
   loading.value = true
-  const res = await API.post('/run_ffprobe', body)
-  ffmpegResult.value = res.data.message
+  try {
+    const res = await API.post('/run_ffprobe', body, { timeout: 30000})
+    ffmpegResult.value = res.data.message
+  } catch(e) {
+    ffmpegResult.value = e.message.startsWith("timeout")
+        ? "연결 시간이 초과되었습니다"
+        : e.message;
+  }
   loading.value = false
 }
 </script>
