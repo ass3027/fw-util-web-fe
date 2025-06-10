@@ -39,7 +39,7 @@ const links = [
         <div class="px-4 py-2 bg-surface-200 rounded-xl">
           <span class="font-bold">{{ getRegion().name }}</span>
         </div>
-        <div class="flex justify-center items-center gap-2"
+        <div class="flex justify-center items-center gap-2 cursor-pointer"
              @click="loginUtil.logout()"
         >
           <span class="pi pi-replay text-primary-500"/>
