@@ -56,6 +56,7 @@ const ffmpegModal = reactive({
           :loading="cctvTable.loading"
           :globalFilterFields="['cctv_name']"
           tableStyle="min-width: 50rem"
+          selection-mode="single"
           paginator size="small"
           :rows="10" :rows-per-page-options="[10,30,50]"
           @rowClick="event => router.push(`/cctv-log?cctvId=${event.data['cctv_ID']}`)"
