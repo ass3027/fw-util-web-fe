@@ -45,6 +45,7 @@ const log = reactive({
     date: new Date(),
   },
   fetch: {
+    loading: true,
     async run() {
       const validateOption = this.validateOption();
       if(!validateOption.status){
@@ -52,17 +53,19 @@ const log = reactive({
         return;
       }
 
-      log.errorMessage = "";
-      log.data = [];
+      this.loading = true;
       try{
         const res = await API.post(log.option.logType.url, this.getParam());
         log.data = res.data.message;
+        log.errorMessage = "";
       } catch(e){
         const isNoSuchFile = e.response.data.message.includes("No such file or directory");
         log.errorMessage = isNoSuchFile
             ? "로그 파일을 찾을 수 없습니다."
             : e.message;
+        log.data = [];
       }
+      this.loading = false;
     },
     getParam(){
       const logType = log.option.logType
@@ -174,12 +177,19 @@ function formatDate(date) {
           pt:content:class="flex flex-1 min-h-0 p-3 bg-surface-100 border-surface-300 border-2 rounded overflow-auto"
     >
       <template #content>
-        <span v-if="log.data.length !== 0" class="whitespace-pre">
-          {{ log.data.join("\n") }}
-        </span>
-        <span v-else class="font-bold text-3xl">
-          {{ log.errorMessage !== "" ? log.errorMessage : "검색된 로그 없음" }}
-        </span>
+        <template v-if="log.fetch.loading">
+          <div class="flex flex-1 justify-center items-center">
+            <ProgressSpinner class="w-1/4 h-1/3"/>
+          </div>
+        </template>
+        <template v-else>
+          <span v-if="log.data.length !== 0" class="whitespace-pre">
+            {{ log.data.join("\n") }}
+          </span>
+          <span v-else class="font-bold text-3xl">
+            {{ log.errorMessage !== "" ? log.errorMessage : "검색된 로그 없음" }}
+          </span>
+        </template>
       </template>
     </Card>
   </div>
