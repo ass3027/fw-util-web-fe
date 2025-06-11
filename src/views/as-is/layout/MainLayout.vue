@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import SideBar from "@/layout/as-is/SideBar.vue";
-import RegionSelectComponent from "@/layout/as-is/RegionSelectComponent.vue";
+<script setup>
+import SideBar from "@/views/as-is/layout/SideBar.vue";
+import RegionSelectComponent from "@/views/as-is/layout/RegionSelectComponent.vue";
 </script>
 
 <template>

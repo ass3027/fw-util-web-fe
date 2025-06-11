@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/as-is',
-    component: () => import('@/views/layout/as-is/MainLayout.vue'),
+    component: () => import('@/views/as-is/layout/MainLayout.vue'),
     children: [
       {
         path: 'db-data-list',
