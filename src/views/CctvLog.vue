@@ -13,7 +13,6 @@ onMounted(async () => {
   if(queryCctvId === undefined)
     return;
 
-  log.option.logType = LOG_TYPE.FFMPEG;
   log.option.targetCctv = cctv.data.filter(it => it['cctv_ID'] === Number(queryCctvId))[0];
 
   await log.fetch.run()
@@ -24,8 +23,8 @@ const LOG_TYPE = {
   GSTREAMER: {
     name: "GSTREAMER",
     url: "/gstreamer_log",
-    getInferenceId: _ => log.option.inferenceId,
-    getFindWord: _ => "Connect failed list"
+    getInferenceId: _ => log.option.targetCctv.inference_id,
+    getFindWord: _ => `Reconnect ${log.option.targetCctv['cctv_ID']}`
   },
   FFMPEG: {
     name: "FFMPEG",
@@ -76,13 +75,8 @@ const log = reactive({
       };
     },
     validateOption(){
-      if(log.option.logType.name === LOG_TYPE.GSTREAMER.name)
-        if(log.option.inferenceId === "")
-          return {status: false, msg: "InferenceId를 선택 해주세요."};
-
-      if(log.option.logType.name === LOG_TYPE.FFMPEG.name)
-        if(log.option.targetCctv === undefined)
-          return {status: false, msg: "CCTV를 선택 해주세요."};
+      if(log.option.targetCctv === undefined)
+        return {status: false, msg: "CCTV를 선택 해주세요."};
 
       if(log.option.date === "")
         return {status: false, msg: "날짜를 선택 해주세요."};
@@ -135,23 +129,13 @@ function formatDate(date) {
             </div>
           </div>
           <div class="flex w-1/7 flex-col gap-2">
-            <template v-if="log.option.logType.name === LOG_TYPE.GSTREAMER.name">
-              <label for="inferenceId-select" class="font-bold" >InferenceId</label>
-              <Select v-model="log.option.inferenceId" :options="cctv.inferenceIds"
-                      filter
-                      placeholder="Select a inferenceId"
-                      inputId="inferenceId-select"
-              />
-            </template>
-            <template v-else>
-              <label for="cctv-select" class="font-bold" >CCTV</label>
-              <Select v-model="log.option.targetCctv" :options="cctv.data"
-                      optionLabel="cctv_name"
-                      filter
-                      placeholder="Select a CCTV"
-                      inputId="cctv-select"
-              />
-            </template>
+            <label for="cctv-select" class="font-bold" >CCTV</label>
+            <Select v-model="log.option.targetCctv" :options="cctv.data"
+                    optionLabel="cctv_name"
+                    filter
+                    placeholder="Select a CCTV"
+                    inputId="cctv-select"
+            />
           </div>
           <div class="flex flex-col gap-2">
             <label for="log-date-picker" class="font-bold"> 날짜 </label>
