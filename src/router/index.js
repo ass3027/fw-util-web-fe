@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/login',
+    alias: ['/'],
     name: 'Home',
     component: () => import('@/views/RegionSelector.vue')
   },
