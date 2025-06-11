@@ -6,8 +6,6 @@ feDeployPoint=/home/workspace/fw_cctv_log_monitor/fe/dist
 
 echo $serverPort $server:$feDeployPoint
 
-#npm run build
-
-ssh -p $serverPort $server rm -r $feDeployPoint
+ssh -p $serverPort $server rm -r $feDeployPoint/*
 
 scp -r -P 2233 ./dist/* $server:$feDeployPoint
