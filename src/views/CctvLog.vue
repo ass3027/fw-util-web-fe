@@ -37,6 +37,7 @@ const LOG_TYPE = {
 
 const log = reactive({
   data: [],
+  errorMessage: "",
   option: {
     logType: LOG_TYPE.GSTREAMER,
     targetCctv: undefined,
@@ -50,8 +51,18 @@ const log = reactive({
         alert(validateOption.msg);
         return;
       }
-      const res = await API.post(log.option.logType.url, this.getParam());
-      log.data = res.data.message;
+
+      log.errorMessage = "";
+      log.data = [];
+      try{
+        const res = await API.post(log.option.logType.url, this.getParam());
+        log.data = res.data.message;
+      } catch(e){
+        const isNoSuchFile = e.response.data.message.includes("No such file or directory");
+        log.errorMessage = isNoSuchFile
+            ? "로그 파일을 찾을 수 없습니다."
+            : e.message;
+      }
     },
     getParam(){
       const logType = log.option.logType
@@ -166,7 +177,9 @@ function formatDate(date) {
         <span v-if="log.data.length !== 0" class="whitespace-pre">
           {{ log.data.join("\n") }}
         </span>
-        <span v-else class="font-bold text-3xl">검색된 로그 없음</span>
+        <span v-else class="font-bold text-3xl">
+          {{ log.errorMessage !== "" ? log.errorMessage : "검색된 로그 없음" }}
+        </span>
       </template>
     </Card>
   </div>
