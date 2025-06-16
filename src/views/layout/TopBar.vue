@@ -50,7 +50,7 @@ const links = [
     <template #end>
       <div class="flex gap-2">
         <div class="px-4 py-2 bg-surface-200 rounded-xl">
-          <a class="text-xl font" :href="webUrl">{{ getRegion().name }}</a>
+          <a class="font-semibold text-lg text-primary-500 hover:text-primary-400 transition-colors duration-200" :href="webUrl">{{ getRegion().name }}</a>
         </div>
         <a class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
            :href="webUrl"
