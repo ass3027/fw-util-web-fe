@@ -1,56 +1,66 @@
 <script setup>
 "use strict";
 import { API } from "@/util/API.js";
-import {onMounted, reactive, ref} from "vue";
-import * as loginUtil from "@/util/loginUtil.js"
+import { onMounted, reactive, ref } from "vue";
+import * as loginUtil from "@/util/loginUtil.js";
+
+const MATRIX_WIDTH = 4;
 
 onMounted(async _ => {
   await regions.fetch();
+  for (const region of regions.data) {
+    regions.checkConnection(region);
+  }
 })
 
 const regions = reactive({
   data: [],
   fetch: async function() {
-    const MATRIX_WIDTH = 4;
     const res = await API.get("/db_list");
     this.data = this.format(res.data);
-    this.data = this.getMatrix(this.data, MATRIX_WIDTH);
   },
-  format: regions => {
-    return Object.keys(regions)
-        .map(key => {
-          return {
-            name: key,
-            ip: regions[key].ip,
-            port: regions[key].port
-          }
-        })
-        .sort(region => region.name.localeCompare(region.name))
+  format: regionData => {
+    return Object.keys(regionData)
+      .map(key => ({
+        name: key,
+        ip: regionData[key].ip,
+        port: regionData[key].port,
+        connectionStatus: undefined
+      }))
+      .sort(region => region.name.localeCompare(region.name));
   },
-  getMatrix: function(array, width) {
+  getIndexMatrix: function(array, width) {
     const result = [];
-    for(let i = 0; i < array.length; i += width) {
-      const chunk = array.slice(i, i + width);
-      result.push(chunk);
+    for (let i = 0; i < array.length; i += width) {
+      const row = [];
+      for (let j = i; j < i + width && j < array.length; j++) {
+        row.push(j);
+      }
+      result.push(row);
     }
     return result;
+  },
+  async checkConnection(region) {
+    try {
+      const res = await API.get('/ssh_status_check', { params: { ip: region.ip, port: region.port } });
+      region.connectionStatus = res.data.status;
+    } catch (e) {
+      region.connectionStatus = false;
+    }
   }
-
 });
-
-
-const loginModalVisible = ref(false);
 
 const login = reactive({
   region: {},
   username: "",
   password: "",
   loading: false,
+  modalVisible: false,
   async login() {
     this.loading = true;
     await loginUtil.login(login.region, this.username, this.password)
     this.loading = false;
-    loginModalVisible.value = false;
+    this.modalVisible = false;
   }
 })
 </script>
@@ -74,17 +84,19 @@ const login = reactive({
           >
             <template #content>
               <div class="flex flex-col justify-between h-full">
-                <div v-for="regionRow in regions.data"
-                     class="flex flex-1"
-                >
-                  <div v-for="region in regionRow"
-                       class="p-1 flex flex-1">
+                <div v-for="row in regions.getIndexMatrix(regions.data, MATRIX_WIDTH)" class="flex flex-1">
+                  <div v-for="regionIdx in row" :key="regionIdx" class="p-1 flex flex-1 items-center">
+                    <span
+                      class="inline-block w-3 h-3 rounded-full mr-2"
+                      :class="regions.data[regionIdx]?.connectionStatus === undefined ? 'bg-gray-400' : (regions.data[regionIdx]?.connectionStatus ? 'bg-green-500' : 'bg-red-500')"
+                      :title="regions.data[regionIdx]?.connectionStatus === undefined ? 'Checking...' : (regions.data[regionIdx]?.connectionStatus ? 'Connected' : 'Disconnected')"
+                    ></span>
                     <Button
                         class="flex-1 text-xl font-extrabold text-pretty px-4 py-3"
                         raised
-                        @click="loginModalVisible = true; login.region = region"
+                        @click="login.modalVisible = true; login.region = regions.data[regionIdx]"
                     >
-                      {{region.name.substring(0,2)}}
+                      {{regions.data[regionIdx]?.name.substring(0,2)}}
                     </Button>
                   </div>
                 </div>
@@ -98,7 +110,7 @@ const login = reactive({
 
     </div>
 
-    <Dialog v-model:visible="loginModalVisible"
+    <Dialog v-model:visible="login.modalVisible"
             class="w-[400px] h-[350px] flex"
             :dismissableMask="true"
             pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm">
