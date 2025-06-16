@@ -1,17 +1,10 @@
 <script setup>
 "use strict";
 import { API } from "@/util/API.js";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import * as loginUtil from "@/util/loginUtil.js";
 
 const MATRIX_WIDTH = 4;
-
-onMounted(async _ => {
-  await regions.fetch();
-  for (const region of regions.data) {
-    regions.checkConnection(region);
-  }
-})
 
 const regions = reactive({
   data: [],
@@ -29,14 +22,10 @@ const regions = reactive({
       }))
       .sort(region => region.name.localeCompare(region.name));
   },
-  getIndexMatrix: function(array, width) {
+  getMatrix: function(array, width) {
     const result = [];
     for (let i = 0; i < array.length; i += width) {
-      const row = [];
-      for (let j = i; j < i + width && j < array.length; j++) {
-        row.push(j);
-      }
-      result.push(row);
+      result.push(array.slice(i, i + width));
     }
     return result;
   },
@@ -49,6 +38,13 @@ const regions = reactive({
     }
   }
 });
+
+onMounted(async _ => {
+  await regions.fetch();
+  for (const region of regions.data) {
+    regions.checkConnection(region);
+  }
+})
 
 const login = reactive({
   region: {},
@@ -84,19 +80,19 @@ const login = reactive({
           >
             <template #content>
               <div class="flex flex-col justify-between h-full">
-                <div v-for="row in regions.getIndexMatrix(regions.data, MATRIX_WIDTH)" class="flex flex-1">
-                  <div v-for="regionIdx in row" :key="regionIdx" class="p-1 flex flex-1 items-center">
+                <div v-for="row in regions.getMatrix(regions.data, MATRIX_WIDTH)" class="flex flex-1">
+                  <div v-for="region in row" :key="region.name" class="p-1 flex flex-1 items-center">
                     <span
                       class="inline-block w-3 h-3 rounded-full mr-2"
-                      :class="regions.data[regionIdx]?.connectionStatus === undefined ? 'bg-gray-400' : (regions.data[regionIdx]?.connectionStatus ? 'bg-green-500' : 'bg-red-500')"
-                      :title="regions.data[regionIdx]?.connectionStatus === undefined ? 'Checking...' : (regions.data[regionIdx]?.connectionStatus ? 'Connected' : 'Disconnected')"
+                      :class="region.connectionStatus === undefined ? 'bg-gray-400' : (region.connectionStatus ? 'bg-green-500' : 'bg-red-500')"
+                      :title="region.connectionStatus === undefined ? 'Checking...' : (region.connectionStatus ? 'Connected' : 'Disconnected')"
                     ></span>
                     <Button
                         class="flex-1 text-xl font-extrabold text-pretty px-4 py-3"
                         raised
-                        @click="login.modalVisible = true; login.region = regions.data[regionIdx]"
+                        @click="login.modalVisible = true; login.region = region"
                     >
-                      {{regions.data[regionIdx]?.name.substring(0,2)}}
+                      {{region.name.substring(0,2)}}
                     </Button>
                   </div>
                 </div>
