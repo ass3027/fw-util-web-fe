@@ -2,6 +2,17 @@
 "use strict";
 import { getRegion } from "@/util/regionUtil.js";
 import * as loginUtil from "@/util/loginUtil.js";
+import {onMounted, ref} from "vue";
+import {API} from "@/util/API.js";
+
+onMounted(async _ => {
+  const region = getRegion()
+  const res = await API.post("/page_url", { region: region.name})
+  webUrl.value = res.data.message
+})
+
+const webUrl = ref("")
+
 const links = [
   {
     label: 'CCTV List',
@@ -19,6 +30,8 @@ const links = [
     route: '/realtime-view'
   }
 ];
+
+
 </script>
 
 <template>
@@ -35,11 +48,17 @@ const links = [
       </router-link>
     </template>
     <template #end>
-      <div class="flex gap-5">
+      <div class="flex gap-2">
         <div class="px-4 py-2 bg-surface-200 rounded-xl">
-          <span class="font-bold">{{ getRegion().name }}</span>
+          <a class="text-xl font" :href="webUrl">{{ getRegion().name }}</a>
         </div>
-        <div class="flex justify-center items-center gap-2 cursor-pointer"
+        <a class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
+           :href="webUrl"
+        >
+          <span class="pi pi-link text-primary-500"/>
+          <span>웹 이동</span>
+        </a>
+        <div class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
              @click="loginUtil.logout()"
         >
           <span class="pi pi-replay text-primary-500"/>
