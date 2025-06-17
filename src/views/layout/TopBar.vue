@@ -1,14 +1,13 @@
 <script setup>
-"use strict";
 import { getRegion } from "@/util/regionUtil.js";
 import * as loginUtil from "@/util/loginUtil.js";
 import {onMounted, ref} from "vue";
 import {API} from "@/util/API.js";
 
 onMounted(async _ => {
-  const region = getRegion()
-  const res = await API.post("/page_url", { region: region.name})
-  webUrl.value = res.data.message
+  const region = getRegion();
+  const res = await API.post("/page_url", { region: region.name});
+  webUrl.value = res.data.message;
 })
 
 const webUrl = ref("")
@@ -61,8 +60,8 @@ const links = [
         <div class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
              @click="loginUtil.logout()"
         >
-          <span class="pi pi-replay text-primary-500"/>
-          <span>지역선택</span>
+          <span class="pi pi-sign-out text-primary-500"/>
+          <span>로그아웃</span>
         </div>
       </div>
     </template>
@@ -70,7 +69,4 @@ const links = [
 </template>
 
 <style scoped>
-  :root {
-    --p-menubar-background: var(--color-background);
-  }
 </style>
