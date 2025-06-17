@@ -95,24 +95,20 @@ const ffmpegModal = reactive({
         <Column class="w-6/30 px-3" field="cctv_name" header="Name" :sortable="true"/>
         <Column class="w-1/30 px-3" field="inference_id" header="Inference" :sortable="true"/>
         <Column field="url" header="RTSP_URL" :sortable="true"/>
-        <Column class="w-2/30 px-3">
+        <Column class="w-2/30 px-3 text-center" header="RealTime" @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
           <template #body="{ data }">
-            <Button
-                class="font-bold"
-                severity="info"
-                raised
-                @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)"
-            >RealTime</Button>
+            <div class="w-full h-full rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
+                 @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
+              <span class="text-3xl m-2 pi pi-video"/>
+            </div>
           </template>
         </Column>
-        <Column class="w-2/30 px-3">
+        <Column class="w-2/30 px-3 text-center" header="FFProbe">
           <template #body="{ data }">
-            <Button
-                class="font-bold"
-                severity="error"
-                raised
-                @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']"
-            >FFProbe</Button>
+            <div class="w-full h-full rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
+                 @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']">
+              <span class="text-3xl m-2 pi pi-check-circle"/>
+            </div>
           </template>
         </Column>
       </DataTable>
