@@ -1,5 +1,4 @@
 <script setup>
-"use strict";
 import {onMounted, reactive} from "vue";
 import {FilterMatchMode} from "@primevue/core/api";
 import {API} from "@/util/API.js";
@@ -30,7 +29,6 @@ const cctvTable = reactive({
     data.forEach( it =>
         it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`
     )
-    //TODO 지역 filter 작동 잘 안됨. L2 Set 은 정상
     this.L2Set = Array.from(
         new Set(data.map(it => it['cctv_address']['L2']).sort())
     )
@@ -41,8 +39,8 @@ const cctvTable = reactive({
 });
 
 const ffmpegModal = reactive({
-  url: "",
   visible: false,
+  url: "",
   inferenceId: "",
 })
 </script>
@@ -101,6 +99,16 @@ const ffmpegModal = reactive({
           <template #body="{ data }">
             <Button
                 class="font-bold"
+                severity="info"
+                raised
+                @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)"
+            >RealTime</Button>
+          </template>
+        </Column>
+        <Column class="w-2/30 px-3">
+          <template #body="{ data }">
+            <Button
+                class="font-bold"
                 severity="error"
                 raised
                 @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']"
@@ -117,7 +125,4 @@ const ffmpegModal = reactive({
 </template>
 
 <style scoped>
-th, td {
-  padding: 2rem;
-}
 </style>
