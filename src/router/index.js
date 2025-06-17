@@ -18,9 +18,14 @@ const routes = [
         component: () => import('@/views/CctvList.vue')
       },
       {
-        path: '/cctv-log',
+        path: 'cctv-log',
         name: 'CctvLog',
         component: () => import('@/views/CctvLog.vue')
+      },
+      {
+        path: 'realtime-view',
+        name: 'RealTimeView',
+        component: () => import('@/views/RealTimeView.vue')
       }
     ]
   },
@@ -35,12 +40,12 @@ const routes = [
       },
       {
         path: 'connection-fail-list',
-        name: 'ConnectionFailList',
+        name: 'AS-IS ConnectionFailList',
         component: () => import('@/views/as-is/ConnectionFailList.vue')
       },
       {
         path: 'realtime-view',
-        name: 'RealTimeView',
+        name: 'AS-IS RealTimeView',
         component: () => import('@/views/as-is/RealTimeView.vue')
       }
     ]

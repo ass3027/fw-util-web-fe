@@ -35,7 +35,7 @@ const LOG_TYPE = {
 };
 
 const log = reactive({
-  data: [],
+  data: [""],
   errorMessage: "",
   option: {
     logType: LOG_TYPE.GSTREAMER,
@@ -44,7 +44,7 @@ const log = reactive({
     date: new Date(),
   },
   fetch: {
-    loading: true,
+    loading: false,
     async run() {
       const validateOption = this.validateOption();
       if(!validateOption.status){
