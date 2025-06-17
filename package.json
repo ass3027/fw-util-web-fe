@@ -10,6 +10,7 @@
     "deploy": "vite build & ./mount-deploy.sh"
   },
   "dependencies": {
+    "@fontsource/pretendard": "^5.2.5",
     "@primeuix/themes": "^1.0.3",
     "@primevue/core": "^4.3.4",
     "@tailwindcss/vite": "^4.1.3",

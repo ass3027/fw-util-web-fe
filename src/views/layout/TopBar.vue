@@ -34,29 +34,28 @@ const links = [
 </script>
 
 <template>
-  <Menubar :model="links">
+  <Menubar :model="links" pt:start:class="h-full">
     <template #start>
-      <img class="mr-8" src="@/assets/fw-logo.svg" alt="">
+      <a class="h-full flex flex-row gap-3 cursor-pointer hover:text-primary-500 rounded-xl"
+        :href="webUrl"
+      >
+        <img class="h-full" src="@/assets/fw-logo.svg" alt="">
+        <div class="flex items-center gap-1 p-1">
+          <span class="font-semibold text-[1.8rem]">{{ getRegion().name }}</span>
+          <span class="pi pi-link text-primary-500 text-[1.5rem]"/>
+        </div>
+      </a>
     </template>
     <template #item="{ item, props }">
       <router-link :to="item.route">
-        <a class="flex items-center mx-4" v-bind="props.action">
-          <span class="pi text-primary-500" :class="item.icon"/>
-          <span>{{ item.label }}</span>
+        <a class="flex items-center mx-4 " v-bind="props.action">
+          <span class="text-xl pi text-primary-500" :class="item.icon"/>
+          <span class="text-xl">{{ item.label }}</span>
         </a>
       </router-link>
     </template>
     <template #end>
       <div class="flex gap-2">
-        <div class="px-4 py-2 bg-surface-200 rounded-xl">
-          <a class="font-semibold text-lg text-primary-500 hover:text-primary-400 transition-colors duration-200" :href="webUrl">{{ getRegion().name }}</a>
-        </div>
-        <a class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
-           :href="webUrl"
-        >
-          <span class="pi pi-link text-primary-500"/>
-          <span>웹 이동</span>
-        </a>
         <div class="flex justify-center items-center p-2 gap-2 cursor-pointer hover:bg-surface-300 rounded-xl"
              @click="loginUtil.logout()"
         >
