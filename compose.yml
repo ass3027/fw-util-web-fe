@@ -1,13 +1,11 @@
 version: "3.9"
 services:
   be:
-#    image: fw-maintenance-be:latest
+    image: fw-maintenance-be:latest
     build: ./api_server
     volumes:
       - /home/workspace:/home/workspace
-    ports:
-      - "2050:5005"
-      - "2051:8000"
+    network_mode: "host"
 
   fe:
     image: nginx:latest
