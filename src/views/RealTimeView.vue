@@ -75,7 +75,8 @@ const cctv = reactive({
     </template>
     <template #content>
       <div class="flex flex-1 min-h-0 rounded-xl border-5 border-surface-100 bg-surface-100">
-        <video ref="videoPlayer" controls class="flex-1 h-full rounded-xl" autoplay/>
+        <video ref="videoPlayer" class="flex-1 h-full rounded-xl"
+               autoplay controls muted/>
       </div>
     </template>
   </Card>
