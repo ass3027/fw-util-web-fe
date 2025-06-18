@@ -56,8 +56,8 @@ async function initHls() {
       <span class="font-bold text-2xl">RealTimeView</span>
     </template>
     <template #content>
-      <div class="flex flex-1 min-h-0">
-        <video ref="videoPlayer" controls class="flex-1 h-full" autoplay/>
+      <div class="flex flex-1 min-h-0 rounded-xl border-5 border-surface-100 bg-surface-100">
+        <video ref="videoPlayer" controls class="flex-1 h-full rounded-xl" autoplay/>
       </div>
     </template>
   </Card>
