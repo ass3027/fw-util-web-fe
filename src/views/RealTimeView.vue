@@ -1,18 +1,22 @@
 <script setup>
-import {onMounted, onUnmounted, useTemplateRef} from 'vue';
+import {onMounted, onUnmounted, reactive, ref, useTemplateRef} from 'vue';
 import { useRoute } from 'vue-router';
 import Hls from 'hls.js';
 import { API } from "@/util/API.js";
 
-const route = useRoute();
-const inferenceId = route.query.inferenceId || 'svr10';
-const cctvId = route.query.cctvId || '10';
-
 const videoPlayerRef = useTemplateRef("videoPlayer");
+
+const route = useRoute();
+const cctvId = ref(route.query.cctvId);
+
 
 let hls = null;
 
-onMounted(async () => initHls());
+onMounted(async () => {
+  await cctv.fetch();
+  if(cctvId.value)
+    await initHls();
+});
 
 onUnmounted(() => {
   if (hls) {
@@ -21,18 +25,6 @@ onUnmounted(() => {
   API.post("/hls_tunnel_stop");
 });
 
-async function fetchHlsSource() {
-  try {
-    const res = await API.post("/hls_tunnel", {
-      inference_id: inferenceId,
-      cctv_id: cctvId,
-    });
-    return res.data.message;
-  } catch (error) {
-    console.error("Error fetching HLS source:", error);
-    throw error;
-  }
-}
 
 async function initHls() {
   if (!Hls.isSupported())
@@ -45,6 +37,32 @@ async function initHls() {
   hls.attachMedia(videoPlayerRef.value);
   hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayerRef.value.play());
 }
+
+async function fetchHlsSource() {
+  const targetCctv = cctv.data.filter(it => it['cctv_ID'] === Number(cctvId.value))[0];
+  try {
+    const res = await API.post("/hls_tunnel", {
+      cctv_id: cctvId.value,
+      inference_id: targetCctv['inference_id'],
+    });
+    return res.data.message;
+  } catch (error) {
+    console.error("Error fetching HLS source:", error);
+    throw error;
+  }
+}
+
+const cctv = reactive({
+  data: [],
+  async fetch() {
+    const res = await API.post("/cctv_data")
+    const data = res.data.message;
+    data.forEach( it => {
+      it["L2L3"] = `${it["cctv_address"]["L2"]} ${it["cctv_address"]["L3"]}`
+    });
+    this.data = data;
+  },
+})
 </script>
 
 <template>

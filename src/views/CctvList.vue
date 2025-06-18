@@ -10,7 +10,7 @@ const router =  useRouter();
 onMounted(async _ => {
   const isQHD = screen.width === 2560
   cctvTable.rowSize = isQHD ? 15 : 10;
-  cctvTable.fetch()
+  await cctvTable.fetch()
 })
 
 const cctvTable = reactive({
@@ -96,7 +96,7 @@ const ffmpegModal = reactive({
         <Column class="w-3/60 text-center" header="RealTime" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
             <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
-                 @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
+                 @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}`)">
               <span class="pi pi-video text-primary-500 text-3xl m-2"/>
             </div>
           </template>
