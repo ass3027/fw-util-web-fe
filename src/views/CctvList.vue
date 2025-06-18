@@ -91,13 +91,13 @@ const ffmpegModal = reactive({
           </template>
         </Column>
         <Column class="w-6/30" field="cctv_name" header="Name" :sortable="true"/>
-        <Column class="w-2/30" field="inference_id" header="Inference" :sortable="true"/>
+        <Column class="w-5/60" field="inference_id" header="Inference" :sortable="true"/>
         <Column class="flex-1" field="url" header="RTSP_URL" :sortable="true"/>
-        <Column class="w-2/30 text-center" header="RealTime" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
+        <Column class="w-3/60 text-center" header="RealTime" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
             <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
                  @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
-              <span class="pi pi-video text-3xl m-2"/>
+              <span class="pi pi-video text-primary-500 text-3xl m-2"/>
             </div>
           </template>
         </Column>
@@ -105,7 +105,7 @@ const ffmpegModal = reactive({
           <template #body="{ data }">
             <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
                  @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']">
-              <span class="pi pi-check-circle text-3xl m-2"/>
+              <span class="pi pi-check-circle text-green-400 text-3xl m-2"/>
             </div>
           </template>
         </Column>
