@@ -50,29 +50,27 @@ const ffmpegModal = reactive({
         pt:body:class="flex flex-1 min-h-0"
         pt:content:class="flex flex-1 min-h-0"
   >
-    <template #title>
-      <span class="font-bold">CCTV List</span>
-    </template>
     <template #content>
       <DataTable
-          class="border-2 border-surface-300 flex-1 flex flex-col"
-          pt:tableContainer:class="flex-1 flex min-h-0"
-          pt:bodyRow:class="h-1/10"
+          class="flex flex-col flex-1 border-2 border-surface-300"
+          pt:tableContainer:class="flex flex-1"
           :value="cctvTable.data"
           v-model:filters="cctvTable.filters"
+          v-model:rows="cctvTable.rowSize"
+          :rows-per-page-options="[10,15,20,30,50]"
           filter-display="menu"
           :loading="cctvTable.loading"
-          :globalFilterFields="['cctv_name']"
+          :globalFilterFields="['cctv_name', 'url']"
           tableStyle="min-width: 50rem"
           selection-mode="single"
           paginator size="small"
-          :rows="cctvTable.rowSize" :rows-per-page-options="[10,15,20,30,50]"
           @rowClick="event => router.push(`/cctv-log?cctvId=${event.data['cctv_ID']}`)"
       >
         <template #loading>Loading data...</template>
         <template #header>
-          <div class="flex justify-end">
-            <IconField class="">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-2xl ml-2">CCTV List</span>
+            <IconField>
               <InputIcon>
                 <i class="pi pi-search text-primary-500"/>
               </InputIcon>
@@ -81,8 +79,8 @@ const ffmpegModal = reactive({
             </IconField>
           </div>
         </template>
-        <Column class="w-1/30 px-3" field="cctv_ID" header="ID" :sortable="true"/>
-        <Column class="w-4/30 px-3" header="지역" field="L2L3"
+        <Column class="w-3/60 text-center" field="cctv_ID" header="ID" :sortable="true" :pt="{ columnHeaderContent: { class: 'justify-center'}}"/>
+        <Column class="w-4/30" header="지역" field="L2L3"
                 :showFilterMatchModes="false"
                 :filterMenuStyle="{ width: '14rem' }">
           <template #filter="{ filterModel, filterCallback }">
@@ -92,22 +90,22 @@ const ffmpegModal = reactive({
             />
           </template>
         </Column>
-        <Column class="w-6/30 px-3" field="cctv_name" header="Name" :sortable="true"/>
-        <Column class="w-1/30 px-3" field="inference_id" header="Inference" :sortable="true"/>
-        <Column field="url" header="RTSP_URL" :sortable="true"/>
-        <Column class="w-2/30 px-3 text-center" header="RealTime" @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
+        <Column class="w-6/30" field="cctv_name" header="Name" :sortable="true"/>
+        <Column class="w-2/30" field="inference_id" header="Inference" :sortable="true"/>
+        <Column class="flex-1" field="url" header="RTSP_URL" :sortable="true"/>
+        <Column class="w-2/30 text-center" header="RealTime" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
-            <div class="w-full h-full rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
+            <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
                  @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}&inferenceId=${data['inference_id']}`)">
-              <span class="text-3xl m-2 pi pi-video"/>
+              <span class="pi pi-video text-3xl m-2"/>
             </div>
           </template>
         </Column>
-        <Column class="w-2/30 px-3 text-center" header="FFProbe">
+        <Column class="w-2/30 text-center" header="FFProbe" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
-            <div class="w-full h-full rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
+            <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
                  @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']">
-              <span class="text-3xl m-2 pi pi-check-circle"/>
+              <span class="pi pi-check-circle text-3xl m-2"/>
             </div>
           </template>
         </Column>
