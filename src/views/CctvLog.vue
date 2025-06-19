@@ -167,7 +167,7 @@ function formatDate(date) {
           </div>
         </template>
         <template v-else>
-          <span v-if="log.data.length !== 0" class="whitespace-pre">
+          <span v-if="log.data.length !== 0" class="font-sans whitespace-pre">
             {{ log.data.join("\n") }}
           </span>
           <span v-else class="font-bold text-3xl">
