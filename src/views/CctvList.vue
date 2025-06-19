@@ -96,7 +96,7 @@ const ffmpegModal = reactive({
         <Column class="w-3/60 text-center" header="RealTime" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
             <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
-                 @click="router.push(`/realtime-view?cctvId=${data['cctv_ID']}`)">
+                 @click.stop="router.push(`/realtime-view?cctvId=${data['cctv_ID']}`)">
               <span class="pi pi-video text-primary-500 text-3xl m-2"/>
             </div>
           </template>
@@ -104,7 +104,7 @@ const ffmpegModal = reactive({
         <Column class="w-2/30 text-center" header="FFProbe" :pt="{ columnHeaderContent: { class: 'justify-center'}}">
           <template #body="{ data }">
             <div class="rounded-lg hover:bg-surface-500 hover:text-surface-800 cursor-pointer"
-                 @click="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']">
+                 @click.stop="ffmpegModal.visible = true; ffmpegModal.url = data['url']; ffmpegModal.inferenceId = data['inference_id']">
               <span class="pi pi-check-circle text-green-400 text-3xl m-2"/>
             </div>
           </template>
