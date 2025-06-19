@@ -100,13 +100,13 @@ const cctv = reactive({
             <div class="flex flex-col gap-2">
               <span class="font-semibold">분석 서버</span>
               <span class="h-[1.875rem] text-3xl font-semibold">
-                {{ cctv.target !== undefined ? cctv.target['inference_id'] : "" }}
+                {{ cctv.target !== undefined ? cctv.target['inference_id'] : "- -" }}
               </span>
             </div>
             <div class="flex flex-col gap-2">
               <span class="font-semibold">RTSP URL</span>
               <span class="h-[1.875rem] text-3xl font-semibold">
-                {{ cctv.target !== undefined ? cctv.target['url'] : "" }}
+                {{ cctv.target !== undefined ? cctv.target['url'] : "- -" }}
               </span>
             </div>
           </div>
