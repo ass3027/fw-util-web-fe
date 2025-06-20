@@ -41,7 +41,7 @@ const links = [
       >
         <img class="h-full" src="@/assets/fw-logo.svg" alt="">
         <div class="flex items-center gap-1 p-1">
-          <span class="font-semibold text-[1.8rem]">{{ getRegion().name }}</span>
+          <span class="font-semibold text-[1.8rem]">{{ getRegion().name.substring(0,2) }}</span>
           <span class="pi pi-link text-primary-500 text-[1.5rem]"/>
         </div>
       </a>
