@@ -19,14 +19,24 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  if (hls)
+  disconnect();
+});
+
+function disconnect() {
+  if (hls){
     hls.destroy();
+    hls = null;
+  }
 
   API.post("/hls_tunnel_stop");
-});
+}
+
 
 
 async function loadHls() {
+  if(hls != null)
+    disconnect();
+
   if (!Hls.isSupported())
     throw new Error("Hls is not supported");
 
@@ -84,7 +94,7 @@ const cctv = reactive({
             </div>
             <div class="flex flex-col gap-2">
               <div class="h-2/5"></div>
-              <Button @click="loadHls"
+              <Button @click="loadHls();"
                       raised
                       class="font-bold text-lg"
               >
@@ -99,13 +109,13 @@ const cctv = reactive({
           <div class="flex gap-10 px-2">
             <div class="flex flex-col gap-2">
               <span class="font-semibold">분석 서버</span>
-              <span class="h-[1.875rem] text-3xl font-semibold">
+              <span class="h-[1.875rem] text-2xl font-semibold">
                 {{ cctv.target !== undefined ? cctv.target['inference_id'] : "- -" }}
               </span>
             </div>
             <div class="flex flex-col gap-2">
               <span class="font-semibold">RTSP URL</span>
-              <span class="h-[1.875rem] text-3xl font-semibold">
+              <span class="h-[1.875rem] text-2xl font-semibold">
                 {{ cctv.target !== undefined ? cctv.target['url'] : "- -" }}
               </span>
             </div>
