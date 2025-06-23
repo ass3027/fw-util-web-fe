@@ -1,6 +1,6 @@
 #!/bin/bash
 
-server=lsjin@192.168.10.62
+server=lsjin@192.168.50.62
 serverPort=2233
 feDeployPoint=/home/workspace/fw_cctv_log_monitor/fe/dist
 
