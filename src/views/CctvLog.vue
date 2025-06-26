@@ -3,8 +3,10 @@
 import {onMounted, reactive} from "vue";
 import {API} from "@/util/API.js";
 import {useRoute} from "vue-router";
+import {useToast} from "primevue/usetoast";
 
 const route = useRoute();
+const toast = useToast();
 
 onMounted(async () => {
   await cctv.fetch()
@@ -48,6 +50,7 @@ const log = reactive({
     async run() {
       const validateOption = this.validateOption();
       if(!validateOption.status){
+        toast.add({severity: "error", summary: validateOption.msg, life: 5000});
         alert(validateOption.msg);
         return;
       }
