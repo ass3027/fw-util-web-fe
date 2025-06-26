@@ -6,6 +6,7 @@ import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config'
 import { MyPreset } from "./prime-vue-preset.js";
+import ToastService from "primevue/toastservice";
 
 
 const pinia = createPinia()
@@ -14,6 +15,7 @@ const pinia = createPinia()
 createApp(App)
     .use(router)
     .use(pinia)
+    .use(ToastService)
     .use(PrimeVue, {
         theme: {
             preset: MyPreset,

@@ -45,6 +45,15 @@ body {
   --p-form-field-background: var(--p-surface-100);
   --p-form-field-border-color: var(--p-surface-500);
   --p-form-field-color: var(--p-surface-800);
+
+  /*toast*/
+  --p-toast-summary-font-weight: 500;
+  --p-toast-detail-font-weight: 500;
+  --p-toast-icon-size: 1.3rem;
+  --p-toast-summary-font-size: 1.3rem;
+  --p-toast-info-background: var(--p-green-500);
+  --p-toast-error-color: var(--p-neutral-200);
+  --p-toast-error-background: var(--p-red-500);
 }
 
 /*noinspection ALL*/

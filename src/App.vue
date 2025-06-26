@@ -1,12 +1,9 @@
 <script setup>
-// const toggleDarkMode = () => document.documentElement.classList.toggle('p-app-dark')
 </script>
 
 <template>
   <div class="flex flex-col w-full h-full">
-<!--    <div class="flex justify-end">-->
-<!--      <Button label="Dark Mode" @click="toggleDarkMode()" />-->
-<!--    </div>-->
+    <Toast position="top-center" :pt="{ messageContent: { class: 'flex items-center' } }"/>
     <router-view />
   </div>
 </template>
