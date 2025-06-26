@@ -1,11 +1,13 @@
 <script setup>
 import {onMounted, onUnmounted, reactive, useTemplateRef} from 'vue';
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 import Hls from 'hls.js';
-import { API } from "@/util/API.js";
+import {API} from "@/util/API.js";
+import {useToast} from "primevue/usetoast";
 
-const videoPlayerRef = useTemplateRef("videoPlayer");
 const route = useRoute();
+const toast = useToast();
+const videoPlayerRef = useTemplateRef("videoPlayer");
 let hls = null;
 
 onMounted(async () => {
@@ -31,7 +33,20 @@ function disconnect() {
   API.post("/hls_tunnel_stop");
 }
 
+function toastErr(summary, life=5000, detail){
+  toast.add({severity: "error", summary, life, detail});
+}
 
+
+function checkHlsUrl(hlsUrl) {
+  API.get(hlsUrl).catch(e => {
+    if(e.status === 404) {
+      toastErr("영상연결에 실패 했습니다.")
+      // 작동을 안하네
+      // videoPlayerRef.value.pause();
+    }
+  });
+}
 
 async function loadHls() {
   if(hls != null)
@@ -41,34 +56,24 @@ async function loadHls() {
     throw new Error("Hls is not supported");
 
   hls = new Hls();
-  const hlsSourceUrl = await fetchHlsSource();
-
-  hls.loadSource(hlsSourceUrl);
+  const hlsUrl = await fetchHlsUrl();
+  checkHlsUrl(hlsUrl);
+  hls.loadSource(hlsUrl);
   hls.attachMedia(videoPlayerRef.value);
   hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayerRef.value.play());
 }
 
-async function fetchHlsSource() {
+async function fetchHlsUrl() {
   try {
     const res = await API.post("/hls_tunnel", {
       cctv_id: cctv.target['cctv_ID'],
       inference_id: cctv.target['inference_id'],
     });
 
-    const hlsUrl = res.data.message;
-    // test hls
-
-    API.get(hlsUrl).catch(e => {
-      if(e.status === 404) {
-        alert("연결에 실패하였습니다.");
-        videoPlayerRef.value.stop();
-      }
-    });
-
-    return hlsUrl;
+    return res.data.message;
   } catch (error) {
     console.error("Error fetching HLS source:", error);
-    alert("영상 연결에 실패했습니다.")
+    toastErr("영상 주소 획득에 실패했습니다.");
     throw error;
   }
 }
@@ -89,6 +94,7 @@ const cctv = reactive({
 
 <template>
   <div class="flex flex-col gap-6">
+<!--    <Toast position="top-center"/>-->
     <span class="font-bold text-xl">RealTimeView</span>
     <div class="flex gap-4">
       <Card class="flex w-1/4" pt:body:class="p-4">
