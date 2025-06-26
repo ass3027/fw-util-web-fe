@@ -40,9 +40,9 @@ async function loadHls() {
   if (!Hls.isSupported())
     throw new Error("Hls is not supported");
 
+  hls = new Hls();
   const hlsSourceUrl = await fetchHlsSource();
 
-  hls = new Hls();
   hls.loadSource(hlsSourceUrl);
   hls.attachMedia(videoPlayerRef.value);
   hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayerRef.value.play());
@@ -54,9 +54,21 @@ async function fetchHlsSource() {
       cctv_id: cctv.target['cctv_ID'],
       inference_id: cctv.target['inference_id'],
     });
-    return res.data.message;
+
+    const hlsUrl = res.data.message;
+    // test hls
+
+    API.get(hlsUrl).catch(e => {
+      if(e.status === 404) {
+        alert("연결에 실패하였습니다.");
+        videoPlayerRef.value.stop();
+      }
+    });
+
+    return hlsUrl;
   } catch (error) {
     console.error("Error fetching HLS source:", error);
+    alert("영상 연결에 실패했습니다.")
     throw error;
   }
 }
