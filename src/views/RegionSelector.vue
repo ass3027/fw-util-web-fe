@@ -3,7 +3,8 @@
 import { API } from "@/util/API.js";
 import { onMounted, reactive } from "vue";
 import * as loginUtil from "@/util/loginUtil.js";
-
+import {useToast} from "primevue/usetoast";
+const toast = useToast();
 const MATRIX_WIDTH = 4;
 
 const regions = reactive({
@@ -54,7 +55,7 @@ const login = reactive({
   modalVisible: false,
   async login() {
     this.loading = true;
-    await loginUtil.login(login.region, this.username, this.password)
+    await loginUtil.login(login.region, this.username, this.password, toast)
     this.loading = false;
     this.modalVisible = false;
   }

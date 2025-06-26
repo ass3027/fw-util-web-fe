@@ -3,8 +3,7 @@
 import { setRegion, deleteRegion } from "./regionUtil.js";
 import {API} from "@/util/API.js";
 
-
-async function login(region, username, password) {
+async function login(region, username, password, toast) {
     const loginData = {
         id: username,
         password: password,
@@ -14,7 +13,7 @@ async function login(region, username, password) {
     };
     const authenticateResult = await isAuthenticated(loginData);
     if(!authenticateResult.status){
-        alert(authenticateResult.msg);
+        toast.add({severity: "error" ,summary: authenticateResult.msg, life: 5000});
         return;
     }
     setRegion(region);
@@ -22,15 +21,15 @@ async function login(region, username, password) {
 }
 
 function logout() {
-    API.post("/ssh_disconnect")
-    deleteRegion()
+    API.post("/ssh_disconnect");
+    deleteRegion();
     location.href = "/login";
 }
 
 async function isAuthenticated(loginData) {
-    console.log(loginData)
+    console.log(loginData);
     try {
-        await API.post("/ssh_connect", loginData)
+        await API.post("/ssh_connect", loginData);
         return { status: true };
     }catch (e){
         switch(e.status){
@@ -42,7 +41,6 @@ async function isAuthenticated(loginData) {
 }
 
 async function reconnect(loginData){
-    alert("기존 연결을 끊고 다시 연결합니다");
     await API.post("/ssh_disconnect", loginData)
     return isAuthenticated(loginData);
 }

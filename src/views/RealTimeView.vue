@@ -94,7 +94,6 @@ const cctv = reactive({
 
 <template>
   <div class="flex flex-col gap-6">
-<!--    <Toast position="top-center"/>-->
     <span class="font-bold text-xl">RealTimeView</span>
     <div class="flex gap-4">
       <Card class="flex w-1/4" pt:body:class="p-4">
